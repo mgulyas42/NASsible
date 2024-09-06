@@ -1,0 +1,6 @@
+---
+# defaults file for docker
+docker_home: /mnt/services/docker
+media_directory: "{{ docker_home }}/media"
+default_owner: "{{ ansible_user }}"
+default_group: "{{ ansible_user }}"

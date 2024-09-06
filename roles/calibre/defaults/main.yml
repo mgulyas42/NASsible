@@ -1,0 +1,30 @@
+---
+calibre_enabled: false
+calibre_user_id: "1000"
+calibre_group_id: "1000"
+
+# directories
+calibre_directory: "{{ docker_home }}/media/calibre"
+calibre_compose_file: "{{ calibre_directory }}/docker-compose.yaml"
+calibre_config_directory: "{{ calibre_directory }}/config"
+calibre_upload_directory: "{{ calibre_directory }}/uploads"
+calibre_plugins_directory: "{{ calibre_directory }}/plugins"
+calibre_books_directory: "{{ books_root }}"
+calibre_comics_directory: "{{ comics_root }}"
+
+# network
+calibre_port: "8080"
+calibre_webserver_port: "8081"
+calibre_hostname: "calibre"
+
+# env
+calibre_password: ""
+calibre_cli_args: ""
+calibre_security_opts: "seccomp=unconfined" # For why this is here, see https://github.com/linuxserver/docker-calibre/issues/102
+
+# docker
+calibre_container_name: calibre
+calibre_image_version: latest
+calibre_network_name: docker_network
+calibre_memory: 500M
+calibre_cpus: 1

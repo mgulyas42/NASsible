@@ -1,0 +1,25 @@
+##### General #####
+
+# timezone for services
+timezone: Europe/Budapest
+
+# docker_home is the place where the docker composes and configs can be found
+docker_home: /mnt/services/docker
+
+# data_directory is the place where any data for example books, downloads, shares
+data_directory: /mnt/data
+books_root: "{{ data_directory }}/books"
+comics_root: "{{ data_directory }}/comics"
+
+##### Calibre #####
+# calibre_enabled: install & run calibre or not
+calibre_enabled: true
+# calibre_directory: where the compose file can be found
+calibre_directory: "{{ docker_home }}/media/calibre"
+# calibre_upload_directory: if you copy anything in uploads it will automatically handle
+calibre_upload_directory: "{{ calibre_directory }}/uploads"
+calibre_books_directory: "{{ books_root }}"
+calibre_comics_directory: "{{ comics_root }}"
+
+calibre_network_name: docker_network
+calibre_image_version: latest

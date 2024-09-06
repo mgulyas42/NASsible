@@ -1,0 +1,31 @@
+services:
+  calibre:
+    image: ghcr.io/linuxserver/calibre:{{ calibre_image_version }}
+    container_name: calibre
+    environment:
+      - TZ="{{ timezone }}"
+      - PUID={{ calibre_user_id }}
+      - PGID={{ calibre_group_id }}
+      - PASSWORD="{{ calibre_password }}"
+      - CLI_ARGS="{{ calibre_cli_args }}"
+    volumes:
+      - "{{ calibre_config_directory }}:/config:rw"
+      - "{{ calibre_books_directory }}:/books:rw"
+      - "{{ calibre_comics_directory }}:/comics:rw"
+      - "{{ calibre_upload_directory }}:/uploads:rw"
+      - "{{ calibre_plugins_directory }}:/plugins:rw"
+    ports:
+      - {{ calibre_port }}:8080
+      - {{ calibre_webserver_port }}:8081
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '{{ calibre_cpus }}'
+          memory: {{ calibre_memory }}
+    networks:
+      - {{ calibre_network_name }}
+
+networks:
+  {{ calibre_network_name }}:
+    external: true

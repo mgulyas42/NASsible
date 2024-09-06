@@ -1,0 +1,6 @@
+**/tests
+**/meta
+roles/geerlingguy**
+playbooks/*
+!playbooks/sample/
+!playbooks/sample/**

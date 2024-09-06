@@ -1,0 +1,39 @@
+# https://academy.pointtosource.com/containers/ebooks-calibre-readarr/
+
+---
+- name: Get the username from inventory configuration
+  set_fact:
+    target_user: "{{ ansible_ssh_user }}"
+
+- name: Setup calibre 
+  when: calibre_enabled is true
+  block:
+  - name: Ensure directories exist
+    become: true
+    ansible.builtin.file:
+      path: "{{ item }}"
+      state: directory
+      owner: "{{ calibre_user_id }}"
+      group: "{{ calibre_group_id }}"
+      mode: '{{ (ansible_facts[item].stat.mode | default(omit)) | default("0755", true) }}'
+    with_items:
+      - "{{ calibre_directory }}"
+      - "{{ calibre_books_directory }}"
+
+  - name: Copy Docker Compose template
+    template:
+      src: docker-compose.yaml.j2
+      dest: "{{ calibre_compose_file }}"
+
+  - name: Start Calibre
+    community.docker.docker_compose_v2:
+      project_src: "{{ calibre_directory }}"
+      state: present
+
+- name: Stop Calibre
+  block:
+    - name: Stop Calibre
+      community.docker.docker_compose_v2:
+        project_src: "{{ calibre_directory }}"
+        state: absent
+  when: calibre_enabled is false

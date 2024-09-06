@@ -1,0 +1,76 @@
+---
+# TODO move data part in other role
+
+- name: Ensure directories exist
+  become: true
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: '{{ (ansible_facts[item].stat.mode | default(omit)) | default("0755", true) }}'
+    owner: "{{ default_owner }}"
+    group: "{{ default_group }}"
+  with_items:
+    - "{{ docker_home }}"
+    - "{{ media_directory }}"
+    - "{{ data_directory }}"
+
+- name: Install python3-pip
+  become: true
+  ansible.builtin.apt:
+    name: python3-pip
+    state: present
+  register: result
+  until: result is succeeded
+
+- name: Remove docker-py python module
+  become: true
+  ansible.builtin.pip:
+    name: docker-py
+    state: absent
+  register: result
+  until: result is succeeded
+
+- name: Install docker python module
+  become: true
+  ansible.builtin.pip:
+    name: docker
+    state: present
+  register: result
+  until: result is succeeded
+
+- name: Install docker python module
+  become: true
+  ansible.builtin.pip:
+    name: docker-compose
+    state: present
+  register: result
+  until: result is succeeded 
+
+- name: Add Docker group
+  ansible.builtin.group:
+    name: docker
+    state: present
+
+- name: Add user to Docker group
+  ansible.builtin.user:
+    name: "{{ ansible_user }}"
+    groups: docker
+    append: true
+
+- name: Enable and start Docker services
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    enabled: true
+    state: started
+  loop:
+    - docker.service
+    - containerd.service  
+
+- name: Ensure a Docker network is present
+  community.docker.docker_network:
+    name: "{{ item }}"
+    driver: bridge
+    state: present   
+  with_items:
+    - "{{ calibre_network_name }}"
+  become: yes
