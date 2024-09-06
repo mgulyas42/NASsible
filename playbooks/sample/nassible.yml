@@ -7,3 +7,4 @@
         docker_apt_filename: download_docker_com_linux_ubuntu
     - role: docker
     - role: calibre
+    - role: adguard

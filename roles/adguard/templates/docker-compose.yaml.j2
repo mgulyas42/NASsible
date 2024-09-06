@@ -1,0 +1,55 @@
+services:
+  adguard:
+    image: adguard/adguardhome:{{ adguard_image_version }}
+    container_name: {{ adguard_container_name }}
+    restart: unless-stopped
+    ports:
+      # Expose port 53 on TCP and UDP for DNS queries
+      - "{{ ansible_default_ipv4.address }}:53:53/tcp" # workaround to use port with systemd-resolved
+      - "{{ ansible_default_ipv4.address }}:53:53/udp"
+
+      # Expose port 67 on UDP for DHCP server
+      - "67:67/udp"
+
+      # Expose port 68 on UDP for DHCP client
+      # - "68:68/udp"
+
+      # Expose port 80 on TCP for HTTP web interface
+      #- "80:80/tcp"
+
+      # Expose port 443 on TCP and UDP for HTTPS web interface
+      #- "443:443/tcp"
+      #- "443:443/udp"
+
+      # Expose port 3000 on TCP for AdGuard Home's API
+      - "3000:3000/tcp"
+
+      # Expose port 853 on TCP for DNS-over-TLS (DoT)
+      - "853:853/tcp"
+
+      # Expose port 784 on UDP for DNS-over-QUIC (DoQ)
+      - "784:784/udp"
+
+      # Expose port 853 on UDP for DNS-over-DTLS (DoT)
+      - "853:853/udp"
+
+      # Expose port 8853 on UDP for DNS-over-TLS (DoT)
+      - "8853:8853/udp"
+
+      # Expose port 5443 on TCP and UDP for DNSCrypt
+      - "5443:5443/tcp"
+      - "5443:5443/udp"
+    volumes:
+      - {{ adguard_work_directory }}:/opt/adguardhome/work
+      - {{ adguard_config_directory }}:/opt/adguardhome/conf
+    deploy:
+      resources:
+        limits:
+          cpus: '{{ adguard_cpus }}'
+          memory: {{ adguard_memory }}  
+    networks:
+      - {{ adguard_network_name }} 
+
+networks:
+  {{ adguard_network_name }}:
+    external: true

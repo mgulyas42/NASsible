@@ -1,0 +1,20 @@
+---
+adguard_enabled: false
+adguard_user_id: "1000"
+adguard_group_id: "1000"
+
+# directories
+adguard_directory: "{{ docker_home }}/adguard"
+adguard_compose_file: "{{ adguard_directory }}/docker-compose.yaml"
+adguard_config_directory: "{{ adguard_directory }}/config"
+adguard_work_directory: "{{ adguard_directory }}/work"
+
+# network
+adguard_webserver_port: "3000"
+
+# docker
+adguard_container_name: adguard
+adguard_image_version: latest
+adguard_network_name: docker_network
+adguard_memory: 200M
+adguard_cpus: 2

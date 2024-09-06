@@ -1,0 +1,32 @@
+---
+- name: Setup Adguard 
+  when: adguard_enabled is true
+  block:
+  - name: Ensure directories exist
+    become: true
+    ansible.builtin.file:
+      path: "{{ item }}"
+      state: directory
+      owner: "{{ adguard_user_id }}"
+      group: "{{ adguard_group_id }}"
+      mode: '{{ (ansible_facts[item].stat.mode | default(omit)) | default("0755", true) }}'
+    with_items:
+      - "{{ adguard_directory }}"
+
+  - name: Copy Docker Compose template
+    template:
+      src: docker-compose.yaml.j2
+      dest: "{{ adguard_compose_file }}"
+
+  - name: Start adguard
+    community.docker.docker_compose_v2:
+      project_src: "{{ adguard_directory }}"
+      state: present
+
+- name: Stop adguard
+  block:
+    - name: Stop adguard
+      community.docker.docker_compose_v2:
+        project_src: "{{ adguard_directory }}"
+        state: absent
+  when: adguard_enabled is false

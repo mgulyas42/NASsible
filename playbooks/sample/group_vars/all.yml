@@ -23,3 +23,7 @@ calibre_comics_directory: "{{ comics_root }}"
 
 calibre_network_name: docker_network
 calibre_image_version: latest
+
+##### Adguard #####
+adguard_enabled: true
+adguard_network_name: docker_network

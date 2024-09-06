@@ -73,4 +73,5 @@
     state: present   
   with_items:
     - "{{ calibre_network_name }}"
+    - "{{ adguard_network_name }}"
   become: yes

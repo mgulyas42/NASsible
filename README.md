@@ -6,8 +6,14 @@ This repository is inspired by and includes code from [ansible-nas](https://gith
 NASsible is using docker compose.
 
 ## Features
+List of applications and features what the script can install.
+### General
 - Install docker
+### Media
 - Calibre
+### Utilities & Network
+- Adguard (⚠ it's using port 80, 443, 53 ports what can conflict with nginx, traefix. Highly recommended to run this on different device or VM) 
+
 
 ## Setup
 You must install the requirements
