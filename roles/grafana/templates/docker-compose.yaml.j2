@@ -1,0 +1,17 @@
+services:
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    volumes:
+      - grafana_data:/var/lib/grafana
+    ports:
+      - "3000:3000"
+    networks:
+      - {{ grafana_network_name }} 
+
+volumes:
+  grafana_data:
+
+networks:
+  {{ grafana_network_name }}:
+    external: true

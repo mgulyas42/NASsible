@@ -1,0 +1,21 @@
+---
+- name: Start grafana
+  block:
+    - name: Copy Docker Compose template
+      template:
+        src: docker-compose.yaml.j2
+        dest: "{{ grafana_compose_file }}"
+
+    - name: Start grafana
+      community.docker.docker_compose_v2:
+        project_src: "{{ grafana_data_directory }}"
+        state: present        
+  when: grafana_enabled is true
+
+- name: Stop grafana
+  block:
+    - name: Stop grafana
+      community.docker.docker_container:
+        name: "{{ grafana_container_name }}"
+        state: absent
+  when: grafana_enabled is false

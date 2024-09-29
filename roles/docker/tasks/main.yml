@@ -74,4 +74,8 @@
   with_items:
     - "{{ calibre_network_name }}"
     - "{{ adguard_network_name }}"
+    - "{{ transmission_network_name }}"
+    - "{{ homepage_network_name }}"
+    - "{{ grafana_network_name }}"
+    - "{{ prometheus_network_name }}"
   become: yes

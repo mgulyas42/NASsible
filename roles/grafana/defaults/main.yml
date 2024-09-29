@@ -1,0 +1,5 @@
+---
+grafana_enabled: false
+grafana_data_directory: "{{ docker_home }}/grafana"
+grafana_compose_file: "{{ grafana_data_directory }}/docker-compose.yaml"
+grafana_network_name: monitoring

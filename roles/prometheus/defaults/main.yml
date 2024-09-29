@@ -1,0 +1,18 @@
+---
+prometheus_enabled: false
+prometheus_user_id: 1000
+prometheus_group_id: 1000
+
+# directories
+prometheus_data_directory: "{{ docker_home }}/prometheus"
+prometheus_compose_file: "{{ prometheus_data_directory }}/docker-compose.yaml"
+prometheus_config_file: "{{ prometheus_data_directory }}/prometheus.yaml"
+# network
+prometheus_port: "11111"
+
+# docker
+prometheus_container_name: "prometheus"
+prometheus_network_name: monitoring
+# specs
+prometheus_memory: "200m"
+prometheus_cpu: 1
