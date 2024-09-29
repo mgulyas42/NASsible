@@ -36,7 +36,14 @@ Jump to your playbook's folder:
 cd playbooks/YOUR_PLAYBOOK_NAME
 ```
 
+Create your own secrets
+```
+ansible-vault create secrets.yml
+```
+
+Define transmission_passwd in your vault.
+
 Run the following script to apply changes on node(s):
 ```
-ansible-playbook nassible.yml -k -K 
+ansible-playbook nassible.yml -k -K --ask-vault-pass
 ```

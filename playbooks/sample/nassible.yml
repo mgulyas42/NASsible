@@ -1,6 +1,8 @@
 ---
 - name: Nassible
   hosts: all
+  vars_files:
+    - secrets.yml
   roles:
     - role: geerlingguy.docker
       vars:

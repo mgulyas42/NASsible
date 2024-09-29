@@ -1,0 +1,68 @@
+---
+- name: Setup Transmission 
+  when: transmission_enabled is true
+  block:
+  - name: Ensure directories exist
+    become: true
+    ansible.builtin.file:
+      path: "{{ item }}"
+      state: directory
+      owner: "{{ transmission_user_id }}"
+      group: "{{ transmission_group_id }}"
+      mode: '{{ (ansible_facts[item].stat.mode | default(omit)) | default("0755", true) }}'
+    with_items:
+      - "{{ transmission_directory }}"
+      - "{{ transmission_directory }}/config"
+
+  - name: Check if dirs added
+    ansible.builtin.stat:
+      path: "{{ downloads_folder }}/books"
+    register: transmission_dir
+
+  - name: Ensure directories exist
+    when: not transmission_dir.stat.exists
+    ansible.builtin.file:
+      path: "{{ item }}"
+      state: directory
+      mode: '0755'
+    loop:
+      - "{{ downloads_folder }}"
+      - "{{ downloads_folder }}/books"
+      - "{{ downloads_folder }}/book-upload"
+      - "{{ downloads_folder }}/videos"
+      - "{{ downloads_folder }}/learning"
+
+  - name: 'Change ownership recursively'
+    ansible.builtin.file:
+      path: "{{ downloads_folder }}"
+      owner: "{{ target_user }}"
+      group: "{{ target_user }}" 
+      recurse: yes
+  
+  - name: Copy copy books file
+    copy:
+      src: config/copy-books-calibre.sh
+      dest: "{{ transmission_directory }}/config/"
+
+  - name: Copy Docker Compose template
+    template:
+      src: docker-compose.yaml.j2
+      dest: "{{ transmission_compose_file }}"
+  
+  - name: Copy Transmission settings.json
+    template:
+      src: settings.json.j2
+      dest: "{{ transmission_directory }}/config/settings.json"    
+
+  - name: Start Transmission
+    community.docker.docker_compose_v2:
+      project_src: "{{ transmission_directory }}"
+      state: present
+
+- name: Stop Transmission
+  block:
+    - name: Stop Transmission
+      community.docker.docker_compose_v2:
+        project_src: "{{ transmission_directory }}"
+        state: absent
+  when: transmission_enabled is false

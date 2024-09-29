@@ -1,0 +1,32 @@
+services:
+  {{ transmission_container_name }}:
+    image: lscr.io/linuxserver/transmission:{{ transmission_image_version }}
+    container_name: {{ transmission_container_name }}
+    environment:
+      - PUID={{ transmission_user_id }}
+      - PGID={{ transmission_group_id }}
+      - TZ={{ timezone }}
+      - USER={{ transmission_user }}
+      - BOOK_DOWNLOAD_FOLDER_FOR_CALIBRE={{ transmission_book_download_folder_for_calibre }}
+      - CALIBRE_UPLOAD_FOLDER=/{{ calibre_upload_folder }}
+    volumes:
+      - ./config:/config
+      - {{ downloads_folder }}:/downloads
+      - {{ downloads_folder }}/watch:/watch
+      - {{ downloads_folder }}/book-upload:/calibre-uploads
+    ports:
+      - {{ transmission_port }}:9091
+      - 51413:51413
+      - 51413:51413/udp
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '{{ transmission_cpus }}'
+          memory: {{ transmission_memory }}
+    networks:
+      - {{ transmission_network_name }}
+
+networks:
+  {{ transmission_network_name }}:
+    external: true
