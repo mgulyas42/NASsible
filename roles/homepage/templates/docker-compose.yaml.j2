@@ -1,0 +1,23 @@
+services:
+  homepage:
+    container_name: {{ homepage_container_name }}
+    image: "{{ homepage_image_name }}:{{ homepage_image_tag }}"
+    volumes:
+      - "{{ homepage_data_directory }}:/app/config"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    environment:
+      TZ: "{{ timezone }}"
+    ports:
+      - "{{ homepage_port }}:3000"
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '{{ homepage_cpu }}'
+          memory: {{ homepage_memory }}  
+    networks:
+      - {{ homepage_network_name }} 
+
+networks:
+  {{ homepage_network_name }}:
+    external: true

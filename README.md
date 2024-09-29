@@ -47,3 +47,13 @@ Run the following script to apply changes on node(s):
 ```
 ansible-playbook nassible.yml -k -K --ask-vault-pass
 ```
+
+### Todo
+- homepage
+- prometheus
+- grafana
+- home assistant
+- duplicati
+- traefik
+- cloudflare
+- jellyfin

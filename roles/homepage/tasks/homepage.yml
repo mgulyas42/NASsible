@@ -1,0 +1,44 @@
+---
+- name: Start Homepage
+  block:
+    - name: Ensure directories exist
+      become: true
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ homepage_user_id }}"
+        group: "{{ homepage_group_id }}"
+        mode: '{{ (ansible_facts[item].stat.mode | default(omit)) | default("0755", true) }}'
+      with_items:
+        - "{{ homepage_data_directory }}"
+
+    - name: Template config files
+      ansible.builtin.template:
+        src: "{{ item }}"
+        dest: "{{ homepage_data_directory }}/{{ item }}"
+      with_items:
+        - bookmarks.yaml
+        - docker.yaml
+        - settings.yaml
+        - services.yaml
+        - widgets.yaml
+      register: homepage_config
+
+    - name: Copy Docker Compose template
+      template:
+        src: docker-compose.yaml.j2
+        dest: "{{ homepage_compose_file }}"
+
+    - name: Start Homepage
+      community.docker.docker_compose_v2:
+        project_src: "{{ homepage_data_directory }}"
+        state: present        
+  when: homepage_enabled is true
+
+- name: Stop Homepage
+  block:
+    - name: Stop Homepage
+      community.docker.docker_container:
+        name: "{{ homepage_container_name }}"
+        state: absent
+  when: homepage_enabled is false

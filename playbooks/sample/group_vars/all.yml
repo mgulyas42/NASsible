@@ -1,4 +1,5 @@
 ##### General #####
+hostname: sample-host
 
 # timezone for services
 timezone: Europe/Budapest

@@ -32,7 +32,7 @@
       - "{{ downloads_folder }}/videos"
       - "{{ downloads_folder }}/learning"
 
-  - name: 'Change ownership recursively'
+  - name: 'Change ownership recursively TODO: is it needed?'
     ansible.builtin.file:
       path: "{{ downloads_folder }}"
       owner: "{{ target_user }}"
