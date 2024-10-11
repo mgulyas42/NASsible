@@ -22,7 +22,7 @@ services:
       #- "443:443/udp"
 
       # Expose port 3000 on TCP for AdGuard Home's API
-      - "3000:3000/tcp"
+      - "{{ adguard_webserver_port }}:3000/tcp"
 
       # Expose port 853 on TCP for DNS-over-TLS (DoT)
       - "853:853/tcp"

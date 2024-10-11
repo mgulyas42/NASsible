@@ -3,3 +3,6 @@ grafana_enabled: false
 grafana_data_directory: "{{ docker_home }}/grafana"
 grafana_compose_file: "{{ grafana_data_directory }}/docker-compose.yaml"
 grafana_network_name: monitoring
+monitoring_user_id: 1000
+monitoring_group_id: 1000
+grafana_port: 3000
