@@ -1,0 +1,26 @@
+---
+# enable or disable the application
+jackett_enabled: false
+jackett_available_externally: false
+
+# directories
+jackett_data_directory: "{{ docker_home }}/media/jackett"
+jackett_torrents_root: "{{ torrents_root }}"
+jackett_compose_file: "{{ adguard_directory }}/docker-compose.yaml"
+
+# network
+jackett_hostname: "jackett"
+jackett_port: "9117"
+jackett_user_id: 1000
+jackett_group_id: 1000
+jackett_network_name: docker_network
+
+# docker
+jackett_compose_file: "{{ jackett_data_directory }}/docker-compose.yaml"
+jackett_container_name: "jackett"
+jackett_image_name: "linuxserver/jackett"
+jackett_image_version: "latest"
+
+# specs
+jackett_memory: "1g"
+jackett_cpu: 0.5

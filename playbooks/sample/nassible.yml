@@ -10,3 +10,9 @@
     - role: docker
     - role: calibre
     - role: adguard
+    - role: transmission
+    - role: homepage
+    - role: prometheus
+    - role: grafana
+    - role: radarr
+    - role: jackett

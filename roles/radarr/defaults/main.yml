@@ -1,0 +1,27 @@
+---
+radarr_enabled: false
+radarr_available_externally: false
+
+# directories
+radarr_movies_directory: "{{ movies_root }}"
+radarr_download_directory: "{{ downloads_folder }}"
+radarr_data_directory: "{{ docker_home }}/media/radarr"
+radarr_compose_file: "{{ radarr_data_directory }}/docker-compose.yaml"
+
+# uid / gid
+radarr_user_id: 1000
+radarr_group_id: 1000
+
+# network
+radarr_port: "7878"
+radarr_hostname: "radarr"
+
+# docker
+radarr_container_name: "radarr"
+radarr_image_name: "linuxserver/radarr"
+radarr_image_version: "latest"
+
+# specs
+radarr_memory: 1g
+radarr_cpu: 1
+radarr_network_name: docker_network

@@ -1,0 +1,26 @@
+services:
+  radarr:
+    container_name: {{ radarr_container_name }}
+    image: "{{ radarr_image_name }}:{{ radarr_image_version }}"
+    volumes:
+        - "{{ radarr_movies_directory }}:/movies:rw"
+        - "{{ radarr_download_directory }}:/downloads:rw"
+        - "{{ radarr_data_directory }}:/config:rw"
+    ports:
+        - "{{ radarr_port }}:7878"
+    environment:
+        TZ: "{{ timezone }}"
+        PUID: "{{ radarr_user_id }}"
+        PGID: "{{ radarr_group_id }}"
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '{{ radarr_cpu }}'
+          memory: {{ radarr_memory }}  
+    networks:
+      - {{ radarr_network_name }} 
+
+networks:
+  {{ radarr_network_name }}:
+    external: true

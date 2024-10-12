@@ -28,3 +28,33 @@ calibre_image_version: latest
 ##### Adguard #####
 adguard_enabled: true
 adguard_network_name: docker_network
+adguard_webserver_port: 3001
+
+##### Transmission #####
+transmission_enabled: true
+transmission_network_name: docker_network
+transmission_book_download_folder_for_calibre: books
+calibre_upload_folder: calibre_uploads
+
+##### Homepage #####
+homepage_enabled: true
+homepage_network_name: docker_network
+
+##### Prometheus #####
+prometheus_enabled: true
+prometheus_network_name: monitoring
+
+##### Grafana #####
+grafana_enabled: true
+grafana_network_name: monitoring
+
+##### Radarr #####
+radarr_enabled: true
+
+
+##### Jackett #####
+jackett_enabled: true
+
+##### TBD #####
+torrents_root: "{{ data_directory }}/torrents"
+downloads_folder: "{{ data_directory }}/downloads"

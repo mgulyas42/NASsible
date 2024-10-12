@@ -1,0 +1,24 @@
+services:
+  jackett:
+    container_name: "{{ jackett_container_name }}"
+    image: "{{ jackett_image_name }}:{{ jackett_image_version }}"
+    volumes:
+      - "{{ jackett_data_directory }}:/config:rw"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "{{ jackett_torrents_root }}:/downloads"
+    ports:
+      - "{{ jackett_port }}:9117"
+    environment:
+      TZ: "{{ timezone }}"  
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '{{ jackett_cpu }}'
+          memory: {{ jackett_memory }}  
+    networks:
+      - {{ jackett_network_name }} 
+
+networks:
+  {{ jackett_network_name }}:
+    external: true

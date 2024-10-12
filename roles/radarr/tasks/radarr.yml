@@ -1,0 +1,32 @@
+---
+- name: Start radarr
+  block:
+    - name: Ensure directories exist
+      become: true
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ radarr_user_id }}"
+        group: "{{ radarr_group_id }}"
+        mode: '{{ (ansible_facts[item].stat.mode | default(omit)) | default("0755", true) }}'
+      with_items:
+        - "{{ radarr_data_directory }}"
+
+    - name: Copy Docker Compose template
+      template:
+        src: docker-compose.yaml.j2
+        dest: "{{ radarr_compose_file }}"
+
+    - name: Start radarr
+      community.docker.docker_compose_v2:
+        project_src: "{{ radarr_data_directory }}"
+        state: present        
+  when: radarr_enabled is true
+
+- name: Stop radarr
+  block:
+    - name: Stop radarr
+      community.docker.docker_container:
+        name: "{{ radarr_container_name }}"
+        state: absent
+  when: radarr_enabled is false

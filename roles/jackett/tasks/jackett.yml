@@ -1,0 +1,32 @@
+---
+- name: Start jackett
+  block:
+    - name: Ensure directories exist
+      become: true
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ jackett_user_id }}"
+        group: "{{ jackett_group_id }}"
+        mode: '{{ (ansible_facts[item].stat.mode | default(omit)) | default("0755", true) }}'
+      with_items:
+        - "{{ jackett_data_directory }}"
+
+    - name: Copy Docker Compose template
+      template:
+        src: docker-compose.yaml.j2
+        dest: "{{ jackett_compose_file }}"
+
+    - name: Start jackett
+      community.docker.docker_compose_v2:
+        project_src: "{{ jackett_data_directory }}"
+        state: present        
+  when: jackett_enabled is true
+
+- name: Stop jackett
+  block:
+    - name: Stop jackett
+      community.docker.docker_container:
+        name: "{{ jackett_container_name }}"
+        state: absent
+  when: jackett_enabled is false
