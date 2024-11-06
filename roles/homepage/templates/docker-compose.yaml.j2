@@ -1,14 +1,16 @@
 services:
   homepage:
     container_name: {{ homepage_container_name }}
-    image: "{{ homepage_image_name }}:{{ homepage_image_tag }}"
+    image: {{ homepage_image_name }}:{{ homepage_image_tag }}
     volumes:
       - "{{ homepage_data_directory }}:/app/config"
       - "/var/run/docker.sock:/var/run/docker.sock"
     environment:
       TZ: "{{ timezone }}"
+      PUID: {{ homepage_user_id }}
+      PGID: {{ homepage_group_id }}
     ports:
-      - "{{ homepage_port }}:3000"
+      - {{ homepage_port }}:3000
     restart: unless-stopped
     deploy:
       resources:

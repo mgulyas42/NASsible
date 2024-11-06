@@ -1,0 +1,21 @@
+services:
+  duplicati:
+    container_name: duplicati
+    image: linuxserver/duplicati
+    restart: unless-stopped
+    volumes:
+      - "./config:/config:rw"
+      - "{{ docker_home }}:/source"
+      - "{{ backup_root }}:/backuproot"
+    ports:
+        - "{{ duplicati_port }}:8200"
+    environment:
+      PUID: 0
+      GUID: 0
+      TZ: "{{ timezone }}"
+    networks:
+      - {{ duplicati_network_name }} 
+
+networks:
+  {{ duplicati_network_name }}:
+    external: true

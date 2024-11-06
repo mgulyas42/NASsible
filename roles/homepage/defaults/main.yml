@@ -19,7 +19,7 @@ homepage_image_tag: "latest"
 homepage_network_name: docker_network
 
 # specs
-homepage_memory: "100m"
+homepage_memory: "250m"
 homepage_cpu: 1
 
 

@@ -1,0 +1,33 @@
+---
+- name: Start duplicati
+  block:
+    - name: Ensure directories exist
+      become: true
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ duplicati_user_id }}"
+        group: "{{ duplicati_group_id }}"
+        mode: '{{ (ansible_facts[item].stat.mode | default(omit)) | default("0755", true) }}'
+      with_items:
+        - "{{ duplicati_directory }}"
+        - "{{ duplicati_data_directory }}"
+
+    - name: Copy Docker Compose template
+      template:
+        src: docker-compose.yaml.j2
+        dest: "{{ duplicati_compose_file }}"
+
+    - name: Start duplicati
+      community.docker.docker_compose_v2:
+        project_src: "{{ duplicati_directory }}"
+        state: present        
+  when: duplicati_enabled is true
+
+- name: Stop duplicati
+  block:
+    - name: Stop duplicati
+      community.docker.docker_container:
+        name: "{{ duplicati_container_name }}"
+        state: absent
+  when: duplicati_enabled is false
