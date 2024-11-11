@@ -49,11 +49,8 @@ ansible-playbook nassible.yml -k -K --ask-vault-pass
 ```
 
 ### Todo
-- homepage
 - prometheus
 - grafana
-- home assistant
-- duplicati
 - traefik
 - cloudflare
-- jellyfin
+- jellyfin debugging for new instance (cannot scan)

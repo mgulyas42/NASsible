@@ -1,0 +1,34 @@
+---
+- name: Start Jellyfin
+  block:
+    - name: Ensure directories exist
+      become: true
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ jellyfin_user_id }}"
+        group: "{{ jellyfin_group_id }}"
+        mode: '{{ (ansible_facts[item].stat.mode | default(omit)) | default("0755", true) }}'
+      with_items:
+        - "{{ jellyfin_data_directory }}"
+        - "{{ jellyfin_cache_directory }}"
+        - "{{ jellyfin_config_directory }}"
+
+    - name: Copy Docker Compose template
+      template:
+        src: docker-compose.yaml.j2
+        dest: "{{ jellyfin_compose_file }}"
+
+    - name: Start jellyfin
+      community.docker.docker_compose_v2:
+        project_src: "{{ jellyfin_data_directory }}"
+        state: present        
+  when: jellyfin_enabled is true
+
+- name: Stop jellyfin
+  block:
+    - name: Stop jellyfin
+      community.docker.docker_container:
+        name: "{{ jellyfin_container_name }}"
+        state: absent
+  when: jellyfin_enabled is false

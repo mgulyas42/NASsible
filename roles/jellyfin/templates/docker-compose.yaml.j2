@@ -1,0 +1,23 @@
+services:
+  jellyfin:
+    image: jellyfin/jellyfin
+    container_name: jellyfin
+    network_mode: 'host'
+    user: {{ jellyfin_user_id }}:{{ jellyfin_group_id }}
+    volumes:
+      - {{ jellyfin_config_directory }}:/config
+      - {{ jellyfin_cache_directory }}:/cache
+      - {{ jellyfin_video_directory }}:/media
+      - {{ jellyfin_series_directory }}:/series
+    restart: 'unless-stopped'
+    environment:
+      TZ: "{{ timezone }}"
+      PUID: "{{ jellyfin_user_id }}"
+      PGID: "{{ jellyfin_group_id }}"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    deploy:
+      resources:
+        limits:
+          cpus: '4'
+          memory: 500M

@@ -4,7 +4,7 @@ services:
     image: linuxserver/duplicati
     restart: unless-stopped
     volumes:
-      - "./config:/config:rw"
+      - "{{ duplicati_data_directory }}:/config:rw"
       - "{{ docker_home }}:/source"
       - "{{ backup_root }}:/backuproot"
     ports:

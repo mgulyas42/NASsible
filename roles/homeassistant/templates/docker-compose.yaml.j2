@@ -1,0 +1,31 @@
+services:
+  homeassistant:
+    container_name: homeassistant
+    image: "ghcr.io/home-assistant/home-assistant:stable"
+    restart: unless-stopped
+    volumes:
+      - "{{ homeassistant_config_directory }}:/config"
+      - /run/dbus:/run/dbus:ro
+{% if homeassistant_extra_volumes is defined %}
+{% for volume in homeassistant_extra_volumes %}
+      - "{{ volume }}"
+{% endfor %}
+{% endif %}
+
+    ports:
+      - "{{ homeassistant_port }}:8123"
+    devices: {{ homeassistant_devices | default([]) }}
+    environment:
+      TZ: "{{ timezone }}"
+    #network_mode: host
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 1G   
+    networks:
+      - {{ homeassistant_network_name }} 
+
+networks:
+  {{ homeassistant_network_name }}:
+    external: true

@@ -1,4 +1,8 @@
 ---
+- name: Get the username from inventory configuration
+  set_fact:
+    target_user: "{{ ansible_ssh_user }}"
+    
 - name: Setup Transmission 
   when: transmission_enabled is true
   block:

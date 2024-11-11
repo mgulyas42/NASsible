@@ -1,0 +1,32 @@
+---
+- name: Start homeassistant
+  block:
+    - name: Ensure directories exist
+      become: true
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ homeassistant_user_id }}"
+        group: "{{ homeassistant_group_id }}"
+        mode: '{{ (ansible_facts[item].stat.mode | default(omit)) | default("0755", true) }}'
+      with_items:
+        - "{{ homeassistant_data_directory }}"
+
+    - name: Copy Docker Compose template
+      template:
+        src: docker-compose.yaml.j2
+        dest: "{{ homeassistant_compose_file }}"
+
+    - name: Start homeassistant
+      community.docker.docker_compose_v2:
+        project_src: "{{ homeassistant_data_directory }}"
+        state: present        
+  when: homeassistant_enabled is true
+
+- name: Stop homeassistant
+  block:
+    - name: Stop homeassistant
+      community.docker.docker_container:
+        name: "{{ homeassistant_container_name }}"
+        state: absent
+  when: homeassistant_enabled is false

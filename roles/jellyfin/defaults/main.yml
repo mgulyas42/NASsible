@@ -1,0 +1,27 @@
+---
+# enable or disable the application
+jellyfin_enabled: false
+
+# directories
+jellyfin_data_directory: "{{ docker_home }}/media/jellyfin"
+jellyfin_cache_directory: "{{ jellyfin_data_directory }}/cache"
+jellyfin_config_directory: "{{ jellyfin_data_directory }}/config"
+jellyfin_video_directory: "{{ downloads_folder }}/videos"
+jellyfin_series_directory: "{{ downloads_folder }}/series"
+
+# network
+jellyfin_hostname: "jellyfin"
+jellyfin_port: "9117"
+jellyfin_user_id: 1000
+jellyfin_group_id: 1000
+jellyfin_network_name: docker_network
+
+# docker
+jellyfin_compose_file: "{{ jellyfin_data_directory }}/docker-compose.yaml"
+jellyfin_container_name: "jellyfin"
+jellyfin_image_name: "linuxserver/jellyfin"
+jellyfin_image_version: "latest"
+
+# specs
+jellyfin_memory: "1g"
+jellyfin_cpu: 0.5
