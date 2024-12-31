@@ -1,0 +1,24 @@
+services:
+  duckdns:
+    container_name: {{ duckdns_container_name }}
+    image: {{ duckdns_image_name }}:{{ duckdns_image_tag }}
+    volumes:
+      - "{{ duckdns_config_directory }}:/config"
+    environment:
+      TZ: "{{ timezone }}"
+      PUID: {{ duckdns_user_id }}
+      PGID: {{ duckdns_group_id }}
+      TOKEN: {{ duckdns_token }}
+      SUBDOMAINS: {{ duckdns_subdomains }}
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '{{ duckdns_cpu }}'
+          memory: {{ duckdns_memory }}  
+    networks:
+      - {{ duckdns_network_name }} 
+
+networks:
+  {{ duckdns_network_name }}:
+    external: true

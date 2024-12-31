@@ -1,0 +1,26 @@
+---
+# enable or disable the application
+mariadb_enabled: false
+mariadb_available_externally: false
+
+# directories
+mariadb_data_directory: "{{ docker_home }}/media/mariadb"
+mariadb_config_directory: "{{ mariadb_data_directory }}/configs"
+mariadb_dbinit_directory: "{{ mariadb_data_directory }}/dbinit"
+mariadb_compose_file: "{{ adguard_directory }}/docker-compose.yaml"
+
+# network
+mariadb_hostname: "mariadb"
+mariadb_user_id: 1000
+mariadb_group_id: 1000
+mariadb_network_name: docker_network
+
+# docker
+mariadb_compose_file: "{{ mariadb_data_directory }}/docker-compose.yaml"
+mariadb_container_name: "mariadb"
+mariadb_image_name: "linuxserver/mariadb"
+mariadb_image_version: "latest"
+
+# specs
+mariadb_memory: "1g"
+mariadb_cpu: 0.5

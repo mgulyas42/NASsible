@@ -1,0 +1,32 @@
+---
+- name: Start duckdns
+  block:
+    - name: Ensure directories exist
+      become: true
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ duckdns_user_id }}"
+        group: "{{ duckdns_group_id }}"
+        mode: '{{ (ansible_facts[item].stat.mode | default(omit)) | default("0755", true) }}'
+      with_items:
+        - "{{ duckdns_data_directory }}"
+
+    - name: Copy Docker Compose template
+      template:
+        src: docker-compose.yaml.j2
+        dest: "{{ duckdns_compose_file }}"
+
+    - name: Start duckdns
+      community.docker.docker_compose_v2:
+        project_src: "{{ duckdns_data_directory }}"
+        state: present
+  when: duckdns_enabled is true
+
+- name: Stop duckdns
+  block:
+    - name: Stop duckdns
+      community.docker.docker_container:
+        name: "{{ duckdns_container_name }}"
+        state: absent
+  when: duckdns_enabled is false

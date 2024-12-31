@@ -1,0 +1,36 @@
+services:
+  nextcloud:
+    image: nextcloud:latest
+    container_name: nextcloud
+    deploy:
+      resources:
+        limits:
+          cpus: '{{ nextcloud_cpu }}'
+          memory: {{ nextcloud_memory }}
+    restart: unless-stopped
+    stop_grace_period: 10s
+    user: {{ nextcloud_user_id }}:{{ nextcloud_group_id }}
+    ports:
+      - "{{ nextcloud_port }}:80"
+#    depends_on:
+#      - database
+    volumes:
+      - ./configs/html:/var/www/html
+      - ./configs/config:/var/www/html/config
+      - ./configs/custom_apps:/var/www/html/custom_apps
+      - ./configs/themes:/var/www/html/themes
+      - {{ nextcloud_root }}:/var/www/html/data
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      PUID: {{ nextcloud_user_id }}
+      PGID: {{ nextcloud_group_id }}
+      MYSQL_DATABASE: {{ mysql_nextcloud_db }}
+      MYSQL_PASSWORD: {{ nextcloud_db_user_password }}
+      MYSQL_USER: {{ nextcloud_db_username }}
+      MYSQL_HOST: mariadb
+    networks:
+      - {{ nextcloud_network_name }}     
+    
+networks:
+  {{ nextcloud_network_name }}:
+    external: true

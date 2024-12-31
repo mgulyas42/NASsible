@@ -1,0 +1,49 @@
+services:
+  photoprism:
+    image: {{ photoprism_image_name }}:{{photoprism_image_version}}
+    container_name: {{ photoprism_container_name }}
+    deploy:
+      resources:
+        limits:
+          cpus: '3'
+          memory: 2500M
+#    depends_on:
+      #- mariadb
+    security_opt:
+      - seccomp:unconfined
+      - apparmor:unconfined
+    ports:
+      - "{{ photoprism_port }}:2342"
+    environment:
+      PHOTOPRISM_ADMIN_USER: "{{ photoprism_admin_user }}"
+      PHOTOPRISM_ADMIN_PASSWORD: "{{ photoprism_admin_password }}"
+      PHOTOPRISM_SITE_URL: "http://localhost:2342/" 
+      PHOTOPRISM_ORIGINALS_LIMIT: 30000
+      PHOTOPRISM_HTTP_COMPRESSION: "gzip"
+      PHOTOPRISM_JPEG_QUALITY: 100
+      PHOTOPRISM_DETECT_NSFW: "false"
+      PHOTOPRISM_UPLOAD_NSFW: "true"
+      PHOTOPRISM_DATABASE_DRIVER: "mysql"
+      PHOTOPRISM_LOGIN_INTERVAL: 60m0s
+      PHOTOPRISM_LOGIN_LIMIT: 5
+      PHOTOPRISM_DATABASE_SERVER: "mariadb:3306"
+      PHOTOPRISM_DATABASE_NAME: "{{ photoprism_db_name }}"
+      PHOTOPRISM_DATABASE_USER: "{{ photoprism_db_user_name }}"
+      PHOTOPRISM_DATABASE_PASSWORD: "{{ photoprism_db_user_password }}"
+      PHOTOPRISM_SITE_CAPTION: "{{ photoprism_site_name }}"
+      PHOTOPRISM_FFMPEG_ENCODER: "software"
+      PHOTOPRISM_INIT: "https gpu tensorflow"
+      PHOTOPRISM_UID: {{ photoprism_user_id }}
+      PHOTOPRISM_GID: {{ photoprism_group_id }}
+    working_dir: "/photoprism"
+    user: {{ photoprism_user_id }}:{{ photoprism_group_id }}
+    volumes:
+      - "{{ photoprism_original_directory }}:/photoprism/originals:ro"              # Original media files (DO NOT REMOVE)
+      - "{{ photoprism_cache_directory }}:/photoprism/storage"            # for caching
+
+    networks:
+      - {{ photoprism_network_name }} 
+
+networks:
+  {{ photoprism_network_name }}:
+    external: true

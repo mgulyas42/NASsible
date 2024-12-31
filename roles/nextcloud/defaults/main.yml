@@ -1,0 +1,28 @@
+---
+# enable or disable the application
+nextcloud_enabled: false
+
+# directories
+nextcloud_data_directory: "{{ docker_home }}/nextcloud"
+nextcloud_config_directory: "{{ nextcloud_data_directory }}/configs"
+
+# network
+nextcloud_hostname: "nextcloud"
+nextcloud_port: "1056"
+nextcloud_user_id: 1000
+nextcloud_group_id: 1003
+nextcloud_network_name: docker_network
+
+# docker
+nextcloud_compose_file: "{{ nextcloud_data_directory }}/docker-compose.yaml"
+nextcloud_container_name: "nextcloud"
+nextcloud_image_name: "nextcloud"
+nextcloud_image_version: "latest"
+
+# specs
+nextcloud_memory: "1g"
+nextcloud_cpu: 1
+
+# database
+mysql_nextcloud_db: "nextcloud_db"
+nextcloud_db_username: nextcloud_user

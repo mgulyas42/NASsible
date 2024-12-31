@@ -11,6 +11,7 @@ docker_home: /mnt/services/docker
 data_directory: /mnt/data
 books_root: "{{ data_directory }}/books"
 comics_root: "{{ data_directory }}/comics"
+nextcloud_root: "{{ data_directory }}/nextcloud"
 
 ##### Calibre #####
 # calibre_enabled: install & run calibre or not

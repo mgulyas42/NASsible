@@ -1,0 +1,34 @@
+---
+# enable or disable the application
+photoprism_enabled: false
+
+# directories
+photoprism_data_directory: "{{ docker_home }}/media/photoprism"
+photoprism_cache_directory: "{{ photoprism_data_directory }}/cache"
+photoprism_original_directory: "{{ photoprism_data_directory }}/original"
+
+# network
+photoprism_hostname: "photoprism"
+photoprism_port: "2342"
+photoprism_user_id: 1000
+photoprism_group_id: 1003
+photoprism_network_name: docker_network
+
+# defaults
+photoprism_admin_user: "mgulyas42"
+photoprism_site_name: "Nia & Mark's Wedding"
+
+# docker
+photoprism_compose_file: "{{ photoprism_data_directory }}/docker-compose.yaml"
+photoprism_container_name: "photoprism"
+photoprism_image_name: "photoprism/photoprism"
+photoprism_image_version: "latest"
+
+# database
+photoprism_db_user_name: "photoprism_user"
+photoprism_db_name: "photoprism_db"
+
+
+# specs
+photoprism_memory: "1g"
+photoprism_cpu: 0.5

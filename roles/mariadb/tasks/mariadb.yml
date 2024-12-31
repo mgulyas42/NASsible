@@ -1,0 +1,38 @@
+---
+- name: Start mariadb
+  block:
+    - name: Ensure directories exist
+      become: true
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ mariadb_user_id }}"
+        group: "{{ mariadb_group_id }}"
+        mode: '{{ (ansible_facts[item].stat.mode | default(omit)) | default("0755", true) }}'
+      with_items:
+        - "{{ mariadb_data_directory }}"
+        - "{{ mariadb_dbinit_directory }}"
+
+    - name: Copy Docker Compose template
+      template:
+        src: docker-compose.yaml.j2
+        dest: "{{ mariadb_compose_file }}"
+
+    - name: Copy initdb template
+      template:
+        src: init.sql.j2
+        dest: "{{ mariadb_dbinit_directory }}/init.sql"
+
+    - name: Start mariadb
+      community.docker.docker_compose_v2:
+        project_src: "{{ mariadb_data_directory }}"
+        state: present        
+  when: mariadb_enabled is true
+
+- name: Stop mariadb
+  block:
+    - name: Stop mariadb
+      community.docker.docker_container:
+        name: "{{ mariadb_container_name }}"
+        state: absent
+  when: mariadb_enabled is false

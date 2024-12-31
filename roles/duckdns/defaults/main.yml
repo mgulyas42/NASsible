@@ -1,0 +1,22 @@
+---
+duckdns_user_id: 1000
+duckdns_group_id: 1000
+# enable or disable the application
+duckdns_enabled: false
+
+# directories
+duckdns_data_directory: "{{ docker_home }}/duckdns"
+duckdns_compose_file: "{{ duckdns_data_directory }}/docker-compose.yaml"
+duckdns_config_directory: "{{ duckdns_data_directory }}/config"
+
+duckdns_subdomains: ""
+
+# docker
+duckdns_container_name: "duckdns"
+duckdns_image_name: "lscr.io/linuxserver/duckdns"
+duckdns_image_tag: "latest"
+duckdns_network_name: docker_network
+
+# specs
+duckdns_memory: "50m"
+duckdns_cpu: 1

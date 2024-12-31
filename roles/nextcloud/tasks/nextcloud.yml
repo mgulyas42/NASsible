@@ -1,0 +1,38 @@
+---
+- name: Start nextcloud
+  block:
+    - name: Ensure directories exist
+      become: true
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ nextcloud_user_id }}"
+        group: "{{ nextcloud_group_id }}"
+        mode: '{{ (ansible_facts[item].stat.mode | default(omit)) | default("0755", true) }}'
+      with_items:
+        - "{{ nextcloud_root }}"
+        - "{{ nextcloud_data_directory }}"
+        - "{{ nextcloud_config_directory }}"
+        - "{{ nextcloud_config_directory }}/config"
+        - "{{ nextcloud_config_directory }}/html"
+        - "{{ nextcloud_config_directory }}/custom_apps"
+        - "{{ nextcloud_config_directory }}/themes"
+
+    - name: Copy Docker Compose template
+      template:
+        src: docker-compose.yaml.j2
+        dest: "{{ nextcloud_compose_file }}"
+
+    - name: Start nextcloud
+      community.docker.docker_compose_v2:
+        project_src: "{{ nextcloud_data_directory }}"
+        state: present        
+  when: nextcloud_enabled is true
+
+- name: Stop nextcloud
+  block:
+    - name: Stop nextcloud
+      community.docker.docker_container:
+        name: "{{ nextcloud_container_name }}"
+        state: absent
+  when: nextcloud_enabled is false
