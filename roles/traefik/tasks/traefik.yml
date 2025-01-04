@@ -1,0 +1,39 @@
+---
+- name: Start traefik
+  block:
+    - name: Ensure directories exist
+      become: true
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ traefik_user_id }}"
+        group: "{{ traefik_group_id }}"
+        mode: '{{ (ansible_facts[item].stat.mode | default(omit)) | default("0755", true) }}'
+      with_items:
+        - "{{ traefik_data_directory }}"
+        - "{{ traefik_data_directory }}/letsencrypt"
+    
+    - name: Copy Traefik config.toml
+      ansible.builtin.template:
+        src: traefik.toml.j2
+        dest: "{{ traefik_data_directory }}/traefik.toml"
+      register: template_config
+
+    - name: Copy Docker Compose template
+      template:
+        src: docker-compose.yaml.j2
+        dest: "{{ traefik_compose_file }}"
+
+    - name: Start traefik
+      community.docker.docker_compose_v2:
+        project_src: "{{ traefik_data_directory }}"
+        state: present        
+  when: traefik_enabled is true
+
+- name: Stop traefik
+  block:
+    - name: Stop traefik
+      community.docker.docker_container:
+        name: "{{ traefik_container_name }}"
+        state: absent
+  when: traefik_enabled is false

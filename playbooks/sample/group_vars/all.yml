@@ -59,3 +59,34 @@ jackett_enabled: true
 ##### TBD #####
 torrents_root: "{{ data_directory }}/torrents"
 downloads_folder: "{{ data_directory }}/downloads"
+
+
+#### JellyFin #####
+jellyfin_enabled: true
+#jellyfin_user_id: 1000
+#jellyfin_group_id: 1003
+
+#### DuckDNS ####
+duckdns_enabled: true
+#duckdns_user_id: 1000
+#duckdns_group_id: 1003
+#duckdns_subdomains: todo
+
+#### MariaDB ####
+mariadb_enabled: true
+
+
+#### Photoprism ####
+photoprism_enabled: true
+
+#### Nextcloud ####
+nextcloud_enabled: true
+
+
+#### Traefik ####
+traefik_enabled: true
+#ansible_nas_domain: todo
+# ansible_nas_email: yourmail
+
+homepage_available_by_traefik: false
+homeassistant_available_by_traefik: false

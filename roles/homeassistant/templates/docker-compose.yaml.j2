@@ -18,6 +18,11 @@ services:
     environment:
       TZ: "{{ timezone }}"
     #network_mode: host
+    labels:
+      traefik.enable: "{{ homeassistant_available_by_traefik | string }}"
+      traefik.http.routers.homeassistant.rule: "Host(`{{ homeassistant_hostname }}.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.homeassistant.tls: true
+      traefik.http.services.homeassistant.loadbalancer.server.port: "8123"
     deploy:
       resources:
         limits:

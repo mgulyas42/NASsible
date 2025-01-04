@@ -11,12 +11,20 @@ List of applications and features what the script can install.
 - Install docker
 ### Media
 - Calibre
+- Jellyfin
+- Jackett
+- Photoprism
+- Radarr
 ### Utilities & Network
 - Adguard (⚠ it's using port 80, 443, 53 ports what can conflict with nginx, traefix. Highly recommended to run this on different device or VM) 
+- Duplicati (for backups)
+- Nextcloud
+- Transmission
+- Traefik (using self signed cert yet)
 
 
 ## Setup
-You must install the requirements
+FYI not tested for a while. You must install the requirements
 
 ```
 ansible-galaxy install -r requirements.yml
@@ -51,6 +59,5 @@ ansible-playbook nassible.yml -k -K --ask-vault-pass
 ### Todo
 - prometheus
 - grafana
-- traefik
 - cloudflare
 - jellyfin debugging for new instance (cannot scan)

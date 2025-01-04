@@ -2,6 +2,7 @@
 homeassistant_enabled: false
 homeassistant_user_id: 1000
 homeassistant_group_id: 1000
+homeassistant_available_by_traefik: false
 
 # directories
 homeassistant_data_directory: "{{ docker_home }}/homeassistant"
