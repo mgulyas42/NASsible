@@ -10,8 +10,8 @@ jackett_torrents_root: "{{ torrents_root }}"
 # network
 jackett_hostname: "jackett"
 jackett_port: "9117"
-jackett_user_id: 1000
-jackett_group_id: 1000
+jackett_user_id: "{{ default_owner }}"
+jackett_group_id: "{{ default_group }}"
 jackett_network_name: docker_network
 
 # docker

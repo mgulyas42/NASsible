@@ -32,7 +32,12 @@
 
 - name: Stop Calibre
   block:
+    - name: Get AdGuard container info
+      community.docker.docker_container_info:
+        name: adguard
+      register: container_info
     - name: Stop Calibre
+      when: container_info.container.State.Running | default(false)
       community.docker.docker_compose_v2:
         project_src: "{{ calibre_directory }}"
         state: absent

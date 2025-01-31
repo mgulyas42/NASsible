@@ -1,7 +1,7 @@
 ---
 adguard_enabled: false
-adguard_user_id: "1000"
-adguard_group_id: "1000"
+adguard_user_id: "{{ default_owner }}"
+adguard_group_id: "{{ default_group }}"
 
 # directories
 adguard_directory: "{{ docker_home }}/adguard"

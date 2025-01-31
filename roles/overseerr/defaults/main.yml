@@ -8,8 +8,8 @@ overseerr_config_directory: "{{ overseerr_data_directory }}/config"
 overseerr_compose_file: "{{ overseerr_data_directory }}/docker-compose.yaml"
 
 # uid / gid
-overseerr_user_id: 1000
-overseerr_group_id: 1000
+overseerr_user_id: "{{ default_owner }}"
+overseerr_group_id: "{{ default_group }}"
 
 # network
 overseerr_port: "5055"

@@ -1,6 +1,6 @@
 ---
-duckdns_user_id: 1000
-duckdns_group_id: 1000
+duckdns_user_id: "{{ default_owner }}"
+duckdns_group_id: "{{ default_group }}"
 # enable or disable the application
 duckdns_enabled: false
 

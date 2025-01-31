@@ -1,7 +1,7 @@
 ---
 calibre_enabled: false
-calibre_user_id: "1000"
-calibre_group_id: "1000"
+calibre_user_id: "{{ default_owner }}"
+calibre_group_id: "{{ default_group }}"
 
 # directories
 calibre_directory: "{{ docker_home }}/media/calibre"

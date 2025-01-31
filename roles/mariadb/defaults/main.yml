@@ -11,8 +11,8 @@ mariadb_compose_file: "{{ adguard_directory }}/docker-compose.yaml"
 
 # network
 mariadb_hostname: "mariadb"
-mariadb_user_id: 1000
-mariadb_group_id: 1000
+mariadb_user_id: "{{ default_owner }}"
+mariadb_group_id: "{{ default_group }}"
 mariadb_network_name: docker_network
 
 # docker

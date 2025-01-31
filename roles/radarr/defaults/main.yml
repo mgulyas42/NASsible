@@ -9,8 +9,8 @@ radarr_data_directory: "{{ docker_home }}/media/radarr"
 radarr_compose_file: "{{ radarr_data_directory }}/docker-compose.yaml"
 
 # uid / gid
-radarr_user_id: 1000
-radarr_group_id: 1000
+radarr_user_id: "{{ default_owner }}"
+radarr_group_id: "{{ default_group }}"
 
 # network
 radarr_port: "7878"

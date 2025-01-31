@@ -1,7 +1,7 @@
 ---
 homeassistant_enabled: false
-homeassistant_user_id: 1000
-homeassistant_group_id: 1000
+homeassistant_user_id: "{{ default_owner }}"
+homeassistant_group_id: "{{ default_group }}"
 homeassistant_available_by_traefik: false
 
 # directories

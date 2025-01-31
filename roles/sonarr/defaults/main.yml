@@ -10,8 +10,8 @@ sonarr_config_directory: "{{ sonarr_data_directory }}/config"
 sonarr_compose_file: "{{ sonarr_data_directory }}/docker-compose.yaml"
 
 # uid / gid
-sonarr_user_id: 1000
-sonarr_group_id: 1000
+sonarr_user_id: "{{ default_owner }}"
+sonarr_group_id: "{{ default_group }}"
 
 # network
 sonarr_port: "8989"

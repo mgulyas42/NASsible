@@ -1,7 +1,7 @@
 ---
 prometheus_enabled: false
-prometheus_user_id: 1000
-prometheus_group_id: 1000
+prometheus_user_id: "{{ default_owner }}"
+prometheus_group_id: "{{ default_group }}"
 
 # directories
 prometheus_data_directory: "{{ docker_home }}/prometheus"

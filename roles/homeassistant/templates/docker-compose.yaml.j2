@@ -1,7 +1,7 @@
 services:
   homeassistant:
-    container_name: homeassistant
-    image: "ghcr.io/home-assistant/home-assistant:stable"
+    container_name: "{{ homeassistant_container_name }}"
+    image: "homeassistant/home-assistant:stable"
     restart: unless-stopped
     volumes:
       - "{{ homeassistant_config_directory }}:/config"

@@ -1,6 +1,6 @@
 ---
-homepage_user_id: 1000
-homepage_group_id: 1000
+homepage_user_id: "{{ default_owner }}"
+homepage_group_id: "{{ default_group }}"
 # enable or disable the application
 homepage_enabled: false
 homepage_available_by_traefik: false

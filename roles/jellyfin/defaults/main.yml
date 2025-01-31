@@ -12,8 +12,8 @@ jellyfin_series_directory: "{{ downloads_folder }}/series"
 # network
 jellyfin_hostname: "jellyfin"
 jellyfin_port: "9117"
-jellyfin_user_id: 1000
-jellyfin_group_id: 1000
+jellyfin_user_id: "{{ default_owner }}"
+jellyfin_group_id: "{{ default_group }}"
 jellyfin_network_name: docker_network
 
 # docker

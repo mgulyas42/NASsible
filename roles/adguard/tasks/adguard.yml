@@ -25,7 +25,13 @@
 
 - name: Stop adguard
   block:
+    - name: Get AdGuard container info
+      community.docker.docker_container_info:
+        name: adguard
+      register: container_info
+
     - name: Stop adguard
+      when: container_info.container.State.Running | default(false)
       community.docker.docker_compose_v2:
         project_src: "{{ adguard_directory }}"
         state: absent

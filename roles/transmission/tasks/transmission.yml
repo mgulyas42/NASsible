@@ -29,21 +29,16 @@
       path: "{{ item }}"
       state: directory
       mode: '0755'
+      owner: "{{ transmission_user_id }}"
+      group: "{{ transmission_group_id }}"
     loop:
       - "{{ downloads_folder }}"
       - "{{ downloads_folder }}/books"
       - "{{ downloads_folder }}/book-upload"
       - "{{ downloads_folder }}/videos"
       - "{{ downloads_folder }}/learning"
-
-  - name: 'Change ownership recursively TODO: is it needed?'
-    ansible.builtin.file:
-      path: "{{ downloads_folder }}"
-      owner: "{{ target_user }}"
-      group: "{{ target_user }}" 
-      recurse: yes
   
-  - name: Copy copy books file
+  - name: Copy copy books file script
     copy:
       src: config/copy-books-calibre.sh
       dest: "{{ transmission_directory }}/config/"

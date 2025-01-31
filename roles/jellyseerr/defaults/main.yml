@@ -1,5 +1,5 @@
 ---
-jellyseerr_enabled: true
+jellyseerr_enabled: false
 jellyseerr_available_externally: false
 
 # directories
@@ -8,8 +8,8 @@ jellyseerr_config_directory: "{{ jellyseerr_data_directory }}/config"
 jellyseerr_compose_file: "{{ jellyseerr_data_directory }}/docker-compose.yaml"
 
 # uid / gid
-jellyseerr_user_id: 1000
-jellyseerr_group_id: 1000
+jellyseerr_user_id: "{{ default_owner }}"
+jellyseerr_group_id: "{{ default_group }}"
 
 # network
 jellyseerr_port: "5055" 

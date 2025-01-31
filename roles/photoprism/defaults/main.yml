@@ -10,8 +10,8 @@ photoprism_original_directory: "{{ photoprism_data_directory }}/original"
 # network
 photoprism_hostname: "photoprism"
 photoprism_port: "2342"
-photoprism_user_id: 1000
-photoprism_group_id: 1003
+photoprism_user_id: "{{ default_owner }}"
+photoprism_group_id: "{{ default_group }}"
 photoprism_network_name: docker_network
 
 # defaults

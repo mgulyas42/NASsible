@@ -11,8 +11,8 @@ duplicati_compose_file: "{{ duplicati_directory }}/docker-compose.yaml"
 duplicati_data_permissions: "ro" # set this to rw to enable the ability to restore data
 
 # uid / gid
-duplicati_user_id: 1000
-duplicati_group_id: 1003
+duplicati_user_id: "{{ default_owner }}"
+duplicati_group_id: "{{ default_group }}"
 
 # network
 duplicati_port: "8200"

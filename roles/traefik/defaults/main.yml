@@ -7,8 +7,8 @@
 traefik_enabled: false
 
 
-traefik_user_id: 1000
-traefik_group_id: 1003
+traefik_user_id: "{{ default_owner }}"
+traefik_group_id: "{{ default_group }}"
 
 # directories
 traefik_data_directory: "{{ docker_home }}/traefik"
