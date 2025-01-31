@@ -1,0 +1,33 @@
+---
+- name: Start overseerr
+  block:
+    - name: Ensure directories exist
+      become: true
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ overseerr_user_id }}"
+        group: "{{ overseerr_group_id }}"
+        mode: '{{ (ansible_facts[item].stat.mode | default(omit)) | default("0755", true) }}'
+      with_items:
+        - "{{ overseerr_data_directory }}"
+        - "{{ overseerr_config_directory }}"
+
+    - name: Copy Docker Compose template
+      template:
+        src: docker-compose.yaml.j2
+        dest: "{{ overseerr_compose_file }}"
+
+    - name: Start overseerr
+      community.docker.docker_compose_v2:
+        project_src: "{{ overseerr_data_directory }}"
+        state: present        
+  when: overseerr_enabled is true
+
+- name: Stop overseerr
+  block:
+    - name: Stop overseerr
+      community.docker.docker_container:
+        name: "{{ overseerr_container_name }}"
+        state: absent
+  when: overseerr_enabled is false

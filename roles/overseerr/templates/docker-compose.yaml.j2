@@ -1,0 +1,24 @@
+services:
+  overseerr:
+    container_name: {{ overseerr_container_name }}
+    image: "{{ overseerr_image_name }}:{{ overseerr_image_version }}"
+    volumes:
+        - "{{ overseerr_config_directory }}:/app/config:rw"
+    ports:
+        - "{{ overseerr_port }}:5055"
+    environment:
+        TZ: "{{ timezone }}"
+        PUID: "{{ overseerr_user_id }}"
+        PGID: "{{ overseerr_group_id }}"
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '{{ overseerr_cpu }}'
+          memory: {{ overseerr_memory }}  
+    networks:
+      - {{ overseerr_network_name }} 
+
+networks:
+  {{ overseerr_network_name }}:
+    external: true

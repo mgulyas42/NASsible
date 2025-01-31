@@ -1,0 +1,26 @@
+---
+jellyseerr_enabled: true
+jellyseerr_available_externally: false
+
+# directories
+jellyseerr_data_directory: "{{ docker_home }}/media/jellyseerr"
+jellyseerr_config_directory: "{{ jellyseerr_data_directory }}/config"
+jellyseerr_compose_file: "{{ jellyseerr_data_directory }}/docker-compose.yaml"
+
+# uid / gid
+jellyseerr_user_id: 1000
+jellyseerr_group_id: 1000
+
+# network
+jellyseerr_port: "5055" 
+jellyseerr_hostname: "jellyseerr"
+
+# docker
+jellyseerr_container_name: "jellyseerr"
+jellyseerr_image_name: "fallenbagel/jellyseerr"
+jellyseerr_image_version: "latest"
+
+# specs
+jellyseerr_memory: 500M
+jellyseerr_cpu: 1
+jellyseerr_network_name: docker_network

@@ -1,0 +1,26 @@
+---
+overseerr_enabled: false
+overseerr_available_externally: false
+
+# directories
+overseerr_data_directory: "{{ docker_home }}/media/overseerr"
+overseerr_config_directory: "{{ overseerr_data_directory }}/config"
+overseerr_compose_file: "{{ overseerr_data_directory }}/docker-compose.yaml"
+
+# uid / gid
+overseerr_user_id: 1000
+overseerr_group_id: 1000
+
+# network
+overseerr_port: "5055"
+overseerr_hostname: "overseerr"
+
+# docker
+overseerr_container_name: "overseerr"
+overseerr_image_name: "sctx/overseerr"
+overseerr_image_version: "latest"
+
+# specs
+overseerr_memory: 500M
+overseerr_cpu: 1
+overseerr_network_name: docker_network

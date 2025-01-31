@@ -1,0 +1,28 @@
+---
+sonarr_enabled: false
+sonarr_available_externally: false
+
+# directories
+sonarr_series_directory: "{{ series_root }}"
+sonarr_download_directory: "{{ downloads_folder }}"
+sonarr_data_directory: "{{ docker_home }}/media/sonarr"
+sonarr_config_directory: "{{ sonarr_data_directory }}/config"
+sonarr_compose_file: "{{ sonarr_data_directory }}/docker-compose.yaml"
+
+# uid / gid
+sonarr_user_id: 1000
+sonarr_group_id: 1000
+
+# network
+sonarr_port: "8989"
+sonarr_hostname: "sonarr"
+
+# docker
+sonarr_container_name: "sonarr"
+sonarr_image_name: "linuxserver/sonarr"
+sonarr_image_version: "latest"
+
+# specs
+sonarr_memory: 1g
+sonarr_cpu: 1
+sonarr_network_name: docker_network

@@ -1,0 +1,24 @@
+services:
+  jellyseerr:
+    container_name: {{ jellyseerr_container_name }}
+    image: "{{ jellyseerr_image_name }}:{{ jellyseerr_image_version }}"
+    volumes:
+        - "{{ jellyseerr_config_directory }}:/app/config:rw"
+    ports:
+        - "{{ jellyseerr_port }}:5055"
+    environment:
+        TZ: "{{ timezone }}"
+        PUID: "{{ jellyseerr_user_id }}"
+        PGID: "{{ jellyseerr_group_id }}"
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '{{ jellyseerr_cpu }}'
+          memory: {{ jellyseerr_memory }}  
+    networks:
+      - {{ jellyseerr_network_name }} 
+
+networks:
+  {{ jellyseerr_network_name }}:
+    external: true

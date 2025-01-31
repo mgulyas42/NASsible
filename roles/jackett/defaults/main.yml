@@ -6,7 +6,6 @@ jackett_available_externally: false
 # directories
 jackett_data_directory: "{{ docker_home }}/media/jackett"
 jackett_torrents_root: "{{ torrents_root }}"
-jackett_compose_file: "{{ adguard_directory }}/docker-compose.yaml"
 
 # network
 jackett_hostname: "jackett"

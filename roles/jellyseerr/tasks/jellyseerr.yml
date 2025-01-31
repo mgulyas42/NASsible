@@ -1,0 +1,33 @@
+---
+- name: Start jellyseerr
+  block:
+    - name: Ensure directories exist
+      become: true
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ jellyseerr_user_id }}"
+        group: "{{ jellyseerr_group_id }}"
+        mode: '{{ (ansible_facts[item].stat.mode | default(omit)) | default("0755", true) }}'
+      with_items:
+        - "{{ jellyseerr_data_directory }}"
+        - "{{ jellyseerr_config_directory }}"
+
+    - name: Copy Docker Compose template
+      template:
+        src: docker-compose.yaml.j2
+        dest: "{{ jellyseerr_compose_file }}"
+
+    - name: Start jellyseerr
+      community.docker.docker_compose_v2:
+        project_src: "{{ jellyseerr_data_directory }}"
+        state: present        
+  when: jellyseerr_enabled is true
+
+- name: Stop jellyseerr
+  block:
+    - name: Stop jellyseerr
+      community.docker.docker_container:
+        name: "{{ jellyseerr_container_name }}"
+        state: absent
+  when: jellyseerr_enabled is false
