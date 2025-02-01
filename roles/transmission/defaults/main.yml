@@ -2,7 +2,7 @@
 transmission_enabled: false
 transmission_user_id: "{{ default_owner }}"
 transmission_group_id: "{{ default_group }}"
-transmission_user: root
+transmission_user: transmission
 
 # directories
 transmission_directory: "{{ docker_home }}/media/transmission"
