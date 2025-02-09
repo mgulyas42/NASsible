@@ -9,18 +9,23 @@ NASsible is using docker compose.
 List of applications and features what the script can install.
 ### General
 - Install docker
+
 ### Media
 - Calibre
 - Jellyfin
 - Jackett
 - Photoprism
 - Radarr
+
 ### Utilities & Network
-- Adguard (⚠ it's using port 80, 443, 53 ports what can conflict with nginx, traefix. Highly recommended to run this on different device or VM) 
+- Adguard (⚠ it's using port 80, 443, 53 ports what can conflict with nginx, traefix. Highly recommended to run this on different device or VM)
 - Duplicati (for backups)
-- Nextcloud
 - Transmission
 - Traefik (using self signed cert yet)
+
+### Apps
+- Home Assistant
+- Nextcloud
 
 
 ## Setup
@@ -49,7 +54,13 @@ Create your own secrets
 ansible-vault create secrets.yml
 ```
 
-Define transmission_passwd in your vault.
+You can set the following secrets, depends on your needs.
+- transmission_passwd
+- duckdns_token
+- mariadb_root_password
+- photoprism_db_user_password
+- photoprism_admin_password
+- nextcloud_db_user_password
 
 Run the following script to apply changes on node(s):
 ```
@@ -60,4 +71,4 @@ ansible-playbook nassible.yml -k -K --ask-vault-pass
 - prometheus
 - grafana
 - cloudflare
-- jellyfin debugging for new instance (cannot scan)
+- openvpn
