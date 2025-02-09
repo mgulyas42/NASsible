@@ -7,7 +7,6 @@ mariadb_available_externally: false
 mariadb_data_directory: "{{ docker_home }}/media/mariadb"
 mariadb_config_directory: "{{ mariadb_data_directory }}/configs"
 mariadb_dbinit_directory: "{{ mariadb_data_directory }}/dbinit"
-mariadb_compose_file: "{{ adguard_directory }}/docker-compose.yaml"
 
 # network
 mariadb_hostname: "mariadb"

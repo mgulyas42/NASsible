@@ -9,6 +9,12 @@ services:
       - {{ jellyfin_cache_directory }}:/cache
       - {{ jellyfin_video_directory }}:/media
       - {{ jellyfin_series_directory }}:/series
+{% if jellyfin_extra_volumes is defined %}
+{% for volume in jellyfin_extra_volumes %}
+      - "{{ volume }}"
+{% endfor %}
+{% endif %}
+
     restart: 'unless-stopped'
     environment:
       TZ: "{{ timezone }}"
@@ -19,5 +25,5 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '4'
-          memory: 500M
+          cpus: "{{ jellyfin_cpu }}"
+          memory: "{{ jellyfin_memory }}"
