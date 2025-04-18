@@ -1,0 +1,32 @@
+---
+- name: Start tailscale
+  block:
+    - name: Ensure directories exist
+      become: true
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ tailscale_user_id }}"
+        group: "{{ tailscale_group_id }}"
+        mode: '{{ (ansible_facts[item].stat.mode | default(omit)) | default("0755", true) }}'
+      with_items:
+        - "{{ tailscale_data_directory }}"
+
+    - name: Copy Docker Compose template
+      template:
+        src: docker-compose.yaml.j2
+        dest: "{{ tailscale_compose_file }}"
+
+    - name: Start tailscale
+      community.docker.docker_compose_v2:
+        project_src: "{{ tailscale_data_directory }}"
+        state: present        
+  when: tailscale_enabled is true
+
+- name: Stop tailscale
+  block:
+    - name: Stop tailscale
+      community.docker.docker_container:
+        name: "{{ tailscale_container_name }}"
+        state: absent
+  when: tailscale_enabled is false

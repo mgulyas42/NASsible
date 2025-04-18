@@ -1,0 +1,18 @@
+---
+tailscale_enabled: false
+tailscale_user_id: "{{ default_owner }}"
+tailscale_group_id: "{{ default_group }}"
+
+# directories
+tailscale_data_directory: "{{ docker_home }}/tailscale"
+tailscale_compose_file: "{{ tailscale_data_directory }}/docker-compose.yaml"
+tailscale_config_file: "{{ tailscale_data_directory }}/tailscale.yaml"
+# network
+
+# docker
+tailscale_container_name: "tailscale"
+tailscale_network_name: docker_network
+tailscale_tag_name: tag:container
+# specs
+tailscale_memory: "200m"
+tailscale_cpu: 1

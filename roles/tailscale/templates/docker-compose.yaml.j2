@@ -1,0 +1,23 @@
+services:
+  tailscale:
+    image: tailscale/tailscale:latest
+    container_name: tailscale
+    environment:
+      - TS_AUTHKEY={{ tailscale_auth_key }}
+      - TS_EXTRA_ARGS=--advertise-tags={{ tailscale_tag_name }}
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_USERSPACE=false
+    volumes:
+      - ${PWD}/tailscale/state:/var/lib/tailscale
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    network_mode: 'host'  
+    cap_add:
+      - net_admin
+    restart: unless-stopped
+  nginx:
+    image: nginx
+    container_name: tailscale-nginx
+    depends_on:
+      - tailscale
+    network_mode: service:tailscale
