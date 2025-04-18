@@ -24,4 +24,4 @@ jellyfin_image_version: "latest"
 
 # specs
 jellyfin_memory: "1g"
-jellyfin_cpu: 0.5
+jellyfin_cpu: 1

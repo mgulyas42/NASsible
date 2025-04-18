@@ -34,7 +34,7 @@
     loop:
       - "{{ downloads_folder }}"
       - "{{ downloads_folder }}/books"
-      - "{{ downloads_folder }}/book-upload"
+      - "{{ calibre_upload_directory }}"
       - "{{ downloads_folder }}/videos"
       - "{{ downloads_folder }}/learning"
   
@@ -42,6 +42,7 @@
     copy:
       src: config/copy-books-calibre.sh
       dest: "{{ transmission_directory }}/config/"
+      mode: '0755'
 
   - name: Copy Docker Compose template
     template:

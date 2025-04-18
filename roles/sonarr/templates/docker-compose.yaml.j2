@@ -6,6 +6,11 @@ services:
         - "{{ sonarr_series_directory }}:/series:rw"
         - "{{ sonarr_download_directory }}:/downloads:rw"
         - "{{ sonarr_data_directory }}:/config:rw"
+{% if sonarr_extra_volumes is defined %}
+{% for volume in sonarr_extra_volumes %}
+        - "{{ volume }}"
+{% endfor %}
+{% endif %}
     ports:
         - "{{ sonarr_port }}:8989"
     environment:

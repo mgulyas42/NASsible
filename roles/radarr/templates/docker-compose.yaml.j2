@@ -6,6 +6,11 @@ services:
         - "{{ radarr_movies_directory }}:/movies:rw"
         - "{{ radarr_download_directory }}:/downloads:rw"
         - "{{ radarr_data_directory }}:/config:rw"
+{% if radarr_extra_volumes is defined %}
+{% for volume in radarr_extra_volumes %}
+        - "{{ volume }}"
+{% endfor %}
+{% endif %}
     ports:
         - "{{ radarr_port }}:7878"
     environment:

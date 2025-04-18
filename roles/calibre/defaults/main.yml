@@ -18,7 +18,7 @@ calibre_webserver_port: "8081"
 calibre_hostname: "calibre"
 
 # env
-calibre_password: ""
+calibre_password: calibre
 calibre_cli_args: ""
 calibre_security_opts: "seccomp=unconfined" # For why this is here, see https://github.com/linuxserver/docker-calibre/issues/102
 
