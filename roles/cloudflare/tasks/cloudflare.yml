@@ -1,0 +1,30 @@
+---
+- name: Start cloudflare
+  block:
+    - name: Ensure directories exist
+      become: true
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        mode: '{{ (ansible_facts[item].stat.mode | default(omit)) | default("0755", true) }}'
+      with_items:
+        - "{{ cloudflare_data_directory }}"
+
+    - name: Copy Docker Compose template
+      template:
+        src: docker-compose.yaml.j2
+        dest: "{{ cloudflare_compose_file }}"
+
+    - name: Start cloudflare
+      community.docker.docker_compose_v2:
+        project_src: "{{ cloudflare_data_directory }}"
+        state: present        
+  when: cloudflare_enabled is true
+
+- name: Stop cloudflare
+  block:
+    - name: Stop cloudflare
+      community.docker.docker_container:
+        name: "{{ cloudflare_container_name }}"
+        state: absent
+  when: cloudflare_enabled is false

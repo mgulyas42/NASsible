@@ -61,6 +61,7 @@ You can set the following secrets, depends on your needs.
 - photoprism_db_user_password
 - photoprism_admin_password
 - nextcloud_db_user_password
+- cloudflare_tunnel_token
 
 Run the following script to apply changes on node(s):
 ```

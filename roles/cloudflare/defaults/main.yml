@@ -1,0 +1,13 @@
+---
+cloudflare_enabled: false
+
+# directories
+cloudflare_data_directory: "{{ docker_home }}/cloudflare"
+cloudflare_compose_file: "{{ cloudflare_data_directory }}/docker-compose.yaml"
+
+# docker
+cloudflare_container_name: "cloudflare"
+cloudflare_network_name: docker_network
+# specs
+cloudflare_memory: "100m"
+cloudflare_cpu: 0.25
