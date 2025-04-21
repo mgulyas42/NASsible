@@ -6,9 +6,10 @@ This repository is inspired by and includes code from [ansible-nas](https://gith
 NASsible is using docker compose.
 
 ## Features
-List of applications and features what the script can install.
+List of applications and features that the script can install.
+
 ### General
-- Install docker
+- Docker (`docker`, `geerlingguy.docker`)
 
 ### Media
 - Calibre
@@ -16,15 +17,27 @@ List of applications and features what the script can install.
 - Jackett
 - Photoprism
 - Radarr
+- Sonarr
+- Overseerr
+- Jellyseerr
 
 ### Utilities & Network
-- Adguard (⚠ it's using port 80, 443, 53 ports what can conflict with nginx, traefix. Highly recommended to run this on different device or VM)
+- Adguard (⚠ uses ports 80, 443, 53; may conflict with nginx/traefik. Recommended to run on a separate device or VM)
 - Duplicati (for backups)
 - Transmission
-- Traefik (using self signed cert yet)
+- Traefik (using self-signed cert)
+- Tailscale
+- Cloudflare
+- DuckDNS
+- OpenVPN (planned)
+- Prometheus
 
 ### Apps
 - Home Assistant
+- Nextcloud
+- Grafana
+- Homepage
+- MariaDB
 - Nextcloud
 
 
