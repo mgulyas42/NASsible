@@ -1,0 +1,10 @@
+---
+# Default variables for sample_service
+sample_service_enabled: true
+sample_service_data_directory: "{{ docker_home }}/sample_service"
+sample_service_user_id: "{{ default_owner }}"
+sample_service_group_id: "{{ default_group }}"
+sample_service_compose_file: "{{ sample_service_data_directory }}/docker-compose.yaml"
+sample_service_image: "sample_service"
+sample_service_image_version: "latest"
+sample_service_container_name: "sample_service"

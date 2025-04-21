@@ -1,0 +1,12 @@
+version: '3.7'
+services:
+  sample_service:
+    image: {{ sample_service_image }}:{{ sample_service_image_version }}
+    container_name: {{ sample_service_container_name }}
+    restart: unless-stopped
+    volumes:
+      - "{{ sample_service_data_directory }}:/data"
+    environment:
+      - TZ={{ timezone }}
+    ports:
+      - "12345:12345"

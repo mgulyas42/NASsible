@@ -84,3 +84,14 @@ If you use a service that is not yet supported, feel free to suggest it or contr
 - grafana
 - cloudflare
 - openvpn
+
+---
+
+## Adding New Apps / Services
+
+To add support for a new application, use the `sample_service` role as a starting point:
+
+1. Copy the `roles/sample_service` directory to a new role directory (e.g. `roles/myapp`).
+2. Rename all occurrences of `sample_service` in files, variables, and filenames to match your new app/service.
+3. Update the variables, Docker Compose template, and tasks as needed for your application.
+4. Refer to the `roles/sample_service/README.md` for further guidance.

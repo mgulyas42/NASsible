@@ -1,0 +1,40 @@
+---
+# Main tasks file for sample_service
+- name: Start sample_service
+  block:
+    - name: Ensure data directory exists
+      become: true
+      ansible.builtin.file:
+        path: "{{ sample_service_data_directory }}"
+        state: directory
+        owner: "{{ sample_service_user_id }}"
+        group: "{{ sample_service_group_id }}"
+        mode: '0755'
+
+    - name: Copy Docker Compose template
+      template:
+        src: docker-compose.yaml.j2
+        dest: "{{ sample_service_compose_file }}"
+
+    - name: Start sample_service
+      community.docker.docker_compose_v2:
+        project_src: "{{ sample_service_data_directory }}"
+        state: present
+  when: sample_service_enabled | bool
+
+- name: Stop sample_service if not enabled
+  when: not sample_service_enabled | bool
+  block:
+    - name: Gather sample_service container info (do not fail if missing)
+      community.docker.docker_container_info:
+        name: sample_service
+      register: container_info
+      failed_when: false
+
+    - name: Stop sample_service container if running
+      community.docker.docker_compose_v2:
+        project_src: "{{ sample_service_data_directory }}"
+        state: absent
+      when:
+        - container_info.container is defined
+        - (container_info.container.State.Running | default(false)) | bool
