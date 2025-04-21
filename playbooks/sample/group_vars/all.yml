@@ -1,92 +1,88 @@
 ##### General #####
-hostname: sample-host
-
-# timezone for services
+# Hostname of your server
+hostname: home_server
+# Default owner and group IDs for created files
+default_owner: 1000
+default_group: 1000
+# Timezone for services
 timezone: Europe/Budapest
 
-# docker_home is the place where the docker composes and configs can be found
-docker_home: /mnt/services/docker
+##### Enable / Disable features #####
+mariadb_enabled: true
+cloudflare_enabled: true
+duckdns_enabled: true
+grafana_enabled: true
+homeassistant_available_by_traefik: true
+homepage_available_by_traefik: true
+jackett_enabled: true
+jellyfin_enabled: true
+nextcloud_enabled: true
+photoprism_enabled: true
+radarr_enabled: true
+torrents_enabled: true
+traefik_enabled: true
 
-# data_directory is the place where any data for example books, downloads, shares
-data_directory: /mnt/data
-books_root: "{{ data_directory }}/books"
-comics_root: "{{ data_directory }}/comics"
+##### Paths #####
+# Where docker compose files and configs are stored
+# (Override as needed for your environment)
+docker_home: "{{ ansible_env.HOME }}/services"
+# Where persistent and user data is stored
+data_directory: /mnt
+# Download folders
+downloads_folder: "/mnt/downloads"
+torrents_root: "{{ downloads_folder }}/torrents"
+books_root: "{{ data_directory }}/calibre"
+comics_root: "{{ data_directory }}/calibre/comics"
+backup_root: "{{ data_directory }}/backups"
 nextcloud_root: "{{ data_directory }}/nextcloud"
+movies_root: "{{ downloads_folder }}/videos"
+series_root: "{{ downloads_folder }}/series"
 
 ##### Calibre #####
-# calibre_enabled: install & run calibre or not
-calibre_enabled: true
-# calibre_directory: where the compose file can be found
 calibre_directory: "{{ docker_home }}/media/calibre"
-# calibre_upload_directory: if you copy anything in uploads it will automatically handle
-calibre_upload_directory: "{{ calibre_directory }}/uploads"
-calibre_books_directory: "{{ books_root }}"
+calibre_upload_directory: "{{ downloads_folder }}/book-upload"
+calibre_books_directory: "{{ books_root }}/books"
 calibre_comics_directory: "{{ comics_root }}"
-
 calibre_network_name: docker_network
-calibre_image_version: latest
+calibre_image_version: 6.28.0
 
 ##### Adguard #####
-adguard_enabled: true
 adguard_network_name: docker_network
 adguard_webserver_port: 3001
 
 ##### Transmission #####
-transmission_enabled: true
 transmission_network_name: docker_network
+transmission_user: abc
 transmission_book_download_folder_for_calibre: books
 calibre_upload_folder: calibre_uploads
 
 ##### Homepage #####
-homepage_enabled: true
 homepage_network_name: docker_network
 
-##### Prometheus #####
-prometheus_enabled: true
+##### Monitoring #####
 prometheus_network_name: monitoring
-
-##### Grafana #####
-grafana_enabled: true
 grafana_network_name: monitoring
 
 ##### Radarr #####
-radarr_enabled: true
+# radarr_extra_volumes:
+#   - /path/to/host/folder1:/container/folder1  # Example: /mnt/data/movies:/movies
+#   - /path/to/host/folder2:/container/folder2  # Example: /mnt/data/series:/series
 
+##### Jellyfin #####
+jellyfin_user_id: "{{ default_owner }}"
+jellyfin_group_id: "{{ default_owner }}"
+# jellyfin_extra_volumes:
+#   - /path/to/host/folder1:/container/folder1  # Example: /mnt/data/media:/media
+#   - /path/to/host/folder2:/container/folder2  # Example: /mnt/data/music:/music
 
-##### Jackett #####
-jackett_enabled: true
+##### DuckDNS #####
+duckdns_user_id: "{{ default_owner }}"
+duckdns_group_id: "{{ default_owner }}"
+duckdns_subdomains: duckdns_subdomain
 
-##### TBD #####
-torrents_root: "{{ data_directory }}/torrents"
-downloads_folder: "{{ data_directory }}/downloads"
+##### Traefik #####
+ansible_nas_domain: example.com
+ansible_nas_email: duckdns_email
 
-
-#### JellyFin #####
-jellyfin_enabled: true
-#jellyfin_user_id: 1000
-#jellyfin_group_id: 1003
-
-#### DuckDNS ####
-duckdns_enabled: true
-#duckdns_user_id: 1000
-#duckdns_group_id: 1003
-#duckdns_subdomains: todo
-
-#### MariaDB ####
-mariadb_enabled: true
-
-
-#### Photoprism ####
-photoprism_enabled: true
-
-#### Nextcloud ####
-nextcloud_enabled: true
-
-
-#### Traefik ####
-traefik_enabled: true
-#ansible_nas_domain: todo
-# ansible_nas_email: yourmail
-
-homepage_available_by_traefik: false
-homeassistant_available_by_traefik: false
+homepage_available_by_traefik: true
+homeassistant_available_by_traefik: true

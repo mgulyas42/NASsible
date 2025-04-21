@@ -35,41 +35,52 @@ FYI not tested for a while. You must install the requirements
 ansible-galaxy install -r requirements.yml
 ```
 
-Copy the example playbook for your server(s).
-```
-cp -rfp playbooks/sample playbooks/YOUR_PLAYBOOK_NAME
-```
+2. **Navigate to your playbook folder**
+   ```bash
+   cd playbooks/YOUR_PLAYBOOK_NAME
+   ```
 
-Configure the following files in your copied playbook:
-- `inventory` : add your node(s)
-- `group_vars/all.yml`: read the properties and update them as you wish
+3. **Create your secrets file**
+   Use Ansible Vault to securely store sensitive variables:
+   ```bash
+   ansible-vault create secrets.yml
+   ```
 
-Jump to your playbook's folder:
-```
-cd playbooks/YOUR_PLAYBOOK_NAME
-```
+   You must define all possible secrets variables in your `secrets.yml` file, but you can leave them empty if a service does not require them. For example:
 
-Create your own secrets
-```
-ansible-vault create secrets.yml
-```
+   ```yaml
+   transmission_passwd:
+   duckdns_token:
+   mariadb_root_password:
+   photoprism_db_user_password:
+   photoprism_admin_password:
+   nextcloud_db_user_password:
+   cloudflare_tunnel_token:
+   ```
 
-You can set the following secrets, depends on your needs.
-- transmission_passwd
-- duckdns_token
-- mariadb_root_password
-- photoprism_db_user_password
-- photoprism_admin_password
-- nextcloud_db_user_password
-- cloudflare_tunnel_token
+   Fill in the values only for the services you enable. Leave the others as empty strings.
 
-Run the following script to apply changes on node(s):
-```
-ansible-playbook nassible.yml -k -K --ask-vault-pass
-```
+4. **Run the playbook**
+   Apply your configuration to the node(s) with:
+   ```bash
+   ansible-playbook nassible.yml -k -K --ask-vault-pass
+   ```
+   - `-k`: ask for SSH password (if needed)
+   - `-K`: ask for privilege escalation password (sudo, if needed)
+   - `--ask-vault-pass`: prompt for your Ansible Vault password
 
 ### Todo
-- prometheus
+- Prometheus support
+- More monitoring/alerting tools
+- More media and utility applications
+
+---
+
+## Contributing
+
+Contributions are welcome! If you have ideas for new features, want to add support for other services, or improve existing roles, please open an issue or submit a pull request.
+
+If you use a service that is not yet supported, feel free to suggest it or contribute a new role for it!
 - grafana
 - cloudflare
 - openvpn

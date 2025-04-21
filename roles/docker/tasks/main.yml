@@ -1,7 +1,7 @@
 ---
-# TODO move data part in other role
+# TODO: Move data part to another role if needed
 
-- name: Ensure directories exist
+- name: Ensure required directories exist
   become: true
   ansible.builtin.file:
     path: "{{ item }}"
@@ -9,74 +9,70 @@
     mode: '{{ (ansible_facts[item].stat.mode | default(omit)) | default("0755", true) }}'
     owner: "{{ default_owner }}"
     group: "{{ default_group }}"
-  with_items:
+  loop:
     - "{{ docker_home }}"
     - "{{ media_directory }}"
     - "{{ data_directory }}"
 
-- name: Install python3-pip
+- name: Install required apt packages
   become: true
   ansible.builtin.apt:
     name: python3-pip
     state: present
-  register: result
-  until: result is succeeded
+  register: apt_result
+  until: apt_result is succeeded
 
-- name: Remove docker-py python module
+- name: Remove deprecated docker-py python module
   become: true
   ansible.builtin.pip:
     name: docker-py
     state: absent
-  register: result
-  until: result is succeeded
+  register: pip_remove_result
+  until: pip_remove_result is succeeded
 
-- name: Install docker python module
+- name: Install required Python modules for Docker
   become: true
   ansible.builtin.pip:
-    name: docker
+    name:
+      - docker
+      - docker-compose
     state: present
-  register: result
-  until: result is succeeded
+  register: pip_install_result
+  until: pip_install_result is succeeded
 
-- name: Install docker python module
+- name: Ensure Docker group exists
   become: true
-  ansible.builtin.pip:
-    name: docker-compose
-    state: present
-  register: result
-  until: result is succeeded 
-
-- name: Add Docker group
   ansible.builtin.group:
     name: docker
     state: present
 
 - name: Add user to Docker group
+  become: true
   ansible.builtin.user:
     name: "{{ ansible_user }}"
     groups: docker
     append: true
-  become: true
 
 - name: Enable and start Docker services
+  become: true
   ansible.builtin.systemd:
     name: "{{ item }}"
     enabled: true
     state: started
   loop:
     - docker.service
-    - containerd.service  
+    - containerd.service
 
-- name: Ensure a Docker network is present
+- name: Ensure Docker networks are present
+  become: true
   community.docker.docker_network:
     name: "{{ item }}"
     driver: bridge
-    state: present   
-  with_items:
+    state: present
+  loop:
     - "{{ calibre_network_name }}"
     - "{{ adguard_network_name }}"
     - "{{ transmission_network_name }}"
     - "{{ homepage_network_name }}"
     - "{{ grafana_network_name }}"
     - "{{ prometheus_network_name }}"
-  become: yes

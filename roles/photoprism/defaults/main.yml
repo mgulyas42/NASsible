@@ -15,8 +15,8 @@ photoprism_group_id: "{{ default_group }}"
 photoprism_network_name: docker_network
 
 # defaults
-photoprism_admin_user: "mgulyas42"
-photoprism_site_name: "Nia & Mark's Wedding"
+photoprism_admin_user: "photoprism"
+photoprism_site_name: "PhotoPrism"
 
 # docker
 photoprism_compose_file: "{{ photoprism_data_directory }}/docker-compose.yaml"

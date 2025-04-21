@@ -59,10 +59,20 @@
       project_src: "{{ transmission_directory }}"
       state: present
 
-- name: Stop Transmission
+- name: Stop Transmission if not enabled
+  when: not transmission_enabled | bool
   block:
-    - name: Stop Transmission
+    - name: Gather Transmission container info (do not fail if missing)
+      community.docker.docker_container_info:
+        name: transmission
+      register: container_info
+      failed_when: false
+
+    - name: Stop Transmission container if running
       community.docker.docker_compose_v2:
         project_src: "{{ transmission_directory }}"
         state: absent
-  when: transmission_enabled is false
+      when:
+        - container_info.container is defined
+        - (container_info.container.State.Running | default(false)) | bool
+

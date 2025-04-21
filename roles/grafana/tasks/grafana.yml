@@ -4,13 +4,31 @@
     - name: Ensure directories exist
       become: true
       ansible.builtin.file:
-        path: "{{ item }}"
+        path: "{{ grafana_data_directory }}"
         state: directory
         owner: "{{ monitoring_user_id }}"
         group: "{{ monitoring_group_id }}"
-        mode: '{{ (ansible_facts[item].stat.mode | default(omit)) | default("0755", true) }}'
-      with_items:
-        - "{{ grafana_data_directory }}"
+        mode: '{{ (ansible_facts[grafana_data_directory].stat.mode | default(omit)) | default("0755", true) }}'
+
+    - name: Debug ansible user
+      debug:
+        msg:
+          - "ansible_user: {{ ansible_user | default('undefined') }}"
+          - "ansible_ssh_user: {{ ansible_ssh_user | default('undefined') }}"
+          - "monitoring_user_id: {{ monitoring_user_id }}"
+          - "monitoring_group_id: {{ monitoring_group_id }}"
+
+    - name: Get ownership of grafana_data_directory
+      stat:
+        path: "{{ grafana_data_directory }}"
+      register: grafana_data_dir_stat
+
+    - name: Debug ownership of grafana_data_directory
+      debug:
+        msg:
+          - "owner: {{ grafana_data_dir_stat.stat.pw_name | default('unknown') }}"
+          - "group: {{ grafana_data_dir_stat.stat.gr_name | default('unknown') }}"
+          - "mode: {{ grafana_data_dir_stat.stat.mode | default('unknown') }}"
 
     - name: Copy Docker Compose template
       template:
@@ -23,10 +41,19 @@
         state: present        
   when: grafana_enabled is true
 
-- name: Stop grafana
+- name: Stop Grafana if not enabled
+  when: not grafana_enabled | bool
   block:
-    - name: Stop grafana
-      community.docker.docker_container:
-        name: "{{ grafana_container_name }}"
+    - name: Gather Grafana container info (do not fail if missing)
+      community.docker.docker_container_info:
+        name: grafana
+      register: container_info
+      failed_when: false
+
+    - name: Stop Grafana container if running
+      community.docker.docker_compose_v2:
+        project_src: "{{ grafana_data_directory }}"
         state: absent
-  when: grafana_enabled is false
+      when:
+        - container_info.container is defined
+        - (container_info.container.State.Running | default(false)) | bool

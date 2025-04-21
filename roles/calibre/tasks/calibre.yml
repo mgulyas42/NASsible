@@ -16,7 +16,7 @@
       owner: "{{ calibre_user_id }}"
       group: "{{ calibre_group_id }}"
       mode: '{{ (ansible_facts[item].stat.mode | default(omit)) | default("0755", true) }}'
-    with_items:
+    loop:
       - "{{ calibre_directory }}"
       - "{{ calibre_books_directory }}"
 
@@ -30,15 +30,19 @@
       project_src: "{{ calibre_directory }}"
       state: present
 
-- name: Stop Calibre
+- name: Stop Calibre if not enabled
+  when: not calibre_enabled | bool
   block:
-    - name: Get calibre container info
+    - name: Gather Calibre container info (do not fail if missing)
       community.docker.docker_container_info:
         name: calibre
       register: container_info
-    - name: Stop Calibre
-      when: container_info.container.State.Running | default(false)
+      failed_when: false
+
+    - name: Stop Calibre container if running
       community.docker.docker_compose_v2:
         project_src: "{{ calibre_directory }}"
         state: absent
-  when: calibre_enabled is false
+      when:
+        - container_info.container is defined
+        - (container_info.container.State.Running | default(false)) | bool
