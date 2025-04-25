@@ -16,3 +16,12 @@
     - role: grafana
     - role: radarr
     - role: jackett
+    - role: homeassistant
+    - role: jellyfin
+    - role: mariadb
+    - role: duckdns
+    - role: photoprism
+    - role: nextcloud
+    - role: overseerr
+    - role: jellyseerr
+    - role: sonarr

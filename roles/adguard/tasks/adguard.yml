@@ -23,16 +23,19 @@
       project_src: "{{ adguard_directory }}"
       state: present
 
-- name: Stop adguard
+- name: Stop adguard if not enabled
+  when: not adguard_enabled | bool
   block:
-    - name: Get AdGuard container info
+    - name: Gather adguard container info (do not fail if missing)
       community.docker.docker_container_info:
         name: adguard
       register: container_info
+      failed_when: false
 
-    - name: Stop adguard
-      when: container_info.container.State.Running | default(false)
+    - name: Stop adguard container if running
       community.docker.docker_compose_v2:
         project_src: "{{ adguard_directory }}"
         state: absent
-  when: adguard_enabled is false
+      when:
+        - container_info.container is defined
+        - (container_info.container.State.Running | default(false)) | bool

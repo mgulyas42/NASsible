@@ -24,12 +24,12 @@ traefik_enabled: true
 
 ##### Paths #####
 # Where docker compose files and configs are stored
+# Please give attention if you have more partitions
 # (Override as needed for your environment)
 docker_home: "{{ ansible_env.HOME }}/services"
-# Where persistent and user data is stored
+# Where the persistent and user data is stored
 data_directory: /mnt
-# Download folders
-downloads_folder: "/mnt/downloads"
+downloads_folder: "{{ data_directory }}/downloads"
 torrents_root: "{{ downloads_folder }}/torrents"
 books_root: "{{ data_directory }}/calibre"
 comics_root: "{{ data_directory }}/calibre/comics"
@@ -84,5 +84,3 @@ duckdns_subdomains: duckdns_subdomain
 ansible_nas_domain: example.com
 ansible_nas_email: duckdns_email
 
-homepage_available_by_traefik: true
-homeassistant_available_by_traefik: true

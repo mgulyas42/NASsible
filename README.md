@@ -42,16 +42,24 @@ List of applications and features that the script can install.
 
 
 ## Setup
-FYI not tested for a while. You must install the requirements
+
+### Prerequisites
+
+You must install the requirements first:
 
 ```
 ansible-galaxy install -r requirements.yml
 ```
 
-2. **Navigate to your playbook folder**
+1. **Create your own playbook and navigate to there**
    ```bash
+   cp -r playbooks/sample playbooks/YOUR_PLAYBOOK_NAME
    cd playbooks/YOUR_PLAYBOOK_NAME
    ```
+
+2. **Update inventory and configuration files**
+   - Update the inventory file: `playbooks/YOUR_PLAYBOOK_NAME/inventory`
+   - Update the configuration files: `group_vars/all.yml`
 
 3. **Create your secrets file**
    Use Ansible Vault to securely store sensitive variables:
@@ -59,7 +67,7 @@ ansible-galaxy install -r requirements.yml
    ansible-vault create secrets.yml
    ```
 
-   You must define all possible secrets variables in your `secrets.yml` file, but you can leave them empty if a service does not require them. For example:
+   You must define all possible secrets variables in your `secrets.yml` file, but you can  ansible-vault create secrets.ymlleave them empty if a service does not require them. For example:
 
    ```yaml
    transmission_passwd:
