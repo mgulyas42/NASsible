@@ -1,0 +1,40 @@
+---
+# Main tasks file for vaultwarden
+- name: Start vaultwarden
+  block:
+    - name: Ensure data directory exists
+      become: true
+      ansible.builtin.file:
+        path: "{{ vaultwarden_data_directory }}"
+        state: directory
+        owner: "{{ vaultwarden_user_id }}"
+        group: "{{ vaultwarden_group_id }}"
+        mode: '0755'
+
+    - name: Copy Docker Compose template
+      template:
+        src: docker-compose.yaml.j2
+        dest: "{{ vaultwarden_compose_file }}"
+
+    - name: Start vaultwarden
+      community.docker.docker_compose_v2:
+        project_src: "{{ vaultwarden_data_directory }}"
+        state: present
+  when: vaultwarden_enabled | bool
+
+- name: Stop vaultwarden if not enabled
+  when: not vaultwarden_enabled | bool
+  block:
+    - name: Gather vaultwarden container info (do not fail if missing)
+      community.docker.docker_container_info:
+        name: vaultwarden
+      register: container_info
+      failed_when: false
+
+    - name: Stop vaultwarden container if running
+      community.docker.docker_compose_v2:
+        project_src: "{{ vaultwarden_data_directory }}"
+        state: absent
+      when:
+        - container_info.container is defined
+        - (container_info.container.State.Running | default(false)) | bool

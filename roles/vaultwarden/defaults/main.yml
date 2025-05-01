@@ -1,0 +1,14 @@
+---
+# Default variables for vaultwarden
+vaultwarden_enabled: true
+vaultwarden_data_directory: "{{ docker_home }}/vaultwarden"
+vaultwarden_user_id: "{{ default_owner }}"
+vaultwarden_group_id: "{{ default_group }}"
+vaultwarden_compose_file: "{{ vaultwarden_data_directory }}/docker-compose.yaml"
+vaultwarden_image: "vaultwarden/server"
+vaultwarden_image_version: "latest"
+vaultwarden_container_name: "vaultwarden"
+
+vaultwarden_network_name: docker_network
+vaultwarden_memory: 200M
+vaultwarden_cpus: 1

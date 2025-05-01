@@ -1,0 +1,20 @@
+services:
+  vaultwarden:
+    image: {{ vaultwarden_image }}:{{ vaultwarden_image_version }}
+    container_name: {{ vaultwarden_container_name }}
+    restart: unless-stopped
+    volumes:
+      - "{{ vaultwarden_data_directory }}/data:/data"
+    ports:
+      - "9445:80"
+    deploy:
+      resources:
+        limits:
+          cpus: '{{ vaultwarden_cpus }}'
+          memory: {{ vaultwarden_memory }}
+    networks:
+      - {{ vaultwarden_network_name }}
+
+networks:
+  {{ vaultwarden_network_name }}:
+    external: true
