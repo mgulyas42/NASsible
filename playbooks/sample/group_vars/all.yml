@@ -40,11 +40,12 @@ series_root: "{{ downloads_folder }}/series"
 
 ##### Calibre #####
 calibre_directory: "{{ docker_home }}/media/calibre"
-calibre_upload_directory: "{{ downloads_folder }}/book-upload"
+calibre_upload_directory: "{{ downloads_folder }}/calibre-upload"
 calibre_books_directory: "{{ books_root }}/books"
 calibre_comics_directory: "{{ comics_root }}"
 calibre_network_name: docker_network
 calibre_image_version: 6.28.0
+calibre_enabled: true
 
 ##### Adguard #####
 adguard_network_name: docker_network
@@ -53,8 +54,11 @@ adguard_webserver_port: 3001
 ##### Transmission #####
 transmission_network_name: docker_network
 transmission_user: abc
-transmission_book_download_folder_for_calibre: books
-calibre_upload_folder: calibre_uploads
+transmission_book_download_folder: books
+transmission_enabled: true
+booklore_enabled: false
+booklore_upload_directory: "{{ downloads_folder }}/booklore-upload"
+extra_book_upload_directory: "{{ downloads_folder }}/extra-upload"
 
 ##### Homepage #####
 homepage_network_name: docker_network

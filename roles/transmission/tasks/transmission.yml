@@ -35,12 +35,14 @@
       - "{{ downloads_folder }}"
       - "{{ downloads_folder }}/books"
       - "{{ calibre_upload_directory }}"
+      - "{{ booklore_upload_directory }}"
+      - "{{ extra_book_upload_directory }}"
       - "{{ downloads_folder }}/videos"
       - "{{ downloads_folder }}/learning"
   
   - name: Copy copy books file script
     copy:
-      src: config/copy-books-calibre.sh
+      src: config/copy-books-calibre-booklore.sh
       dest: "{{ transmission_directory }}/config/"
       mode: '0755'
 

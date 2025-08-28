@@ -8,13 +8,20 @@ services:
       - TZ={{ timezone }}
       - USER={{ transmission_user }}
       - PASS={{ transmission_passwd }}
-      - BOOK_DOWNLOAD_FOLDER_FOR_CALIBRE={{ transmission_book_download_folder_for_calibre }}
-      - CALIBRE_UPLOAD_FOLDER=/{{ calibre_upload_folder }}
+      - BOOK_DOWNLOAD_FOLDER={{ transmission_book_download_folder }}
+      - CALIBRE_UPLOAD_FOLDER=/calibre-uploads
+      - BOOKLORE_UPLOAD_FOLDER=/booklore-uploads
+      - EXTRA_UPLOAD_FOLDER=/extra-uploads
+      - CALIBRE_ENABLED={{ (calibre_enabled | default(false) | bool) | ternary('true','false') }}
+      - BOOKLORE_ENABLED={{ (booklore_enabled | default(false) | bool) | ternary('true','false') }}
+      - EXTRA_ENABLED={{ (extra_book_copy_enabled | default(false) | bool) | ternary('true','false') }}
     volumes:
       - ./config:/config
       - {{ downloads_folder }}:/downloads
       - {{ downloads_folder }}/watch:/watch
-      - {{ downloads_folder }}/book-upload:/calibre-uploads
+      - {{ calibre_upload_directory }}:/calibre-uploads
+      - {{ booklore_upload_directory }}:/booklore-uploads
+      - {{ extra_book_upload_directory }}:/extra-uploads
     ports:
       - {{ transmission_port }}:9091
       - 51413:51413

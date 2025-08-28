@@ -1,0 +1,31 @@
+---
+booklore_enabled: false
+booklore_available_externally: false
+
+# directories
+booklore_data_directory: "{{ docker_home }}/media/booklore"
+booklore_config_directory: "{{ booklore_data_directory }}/data"
+booklore_upload_directory: "{{ booklore_data_directory }}/uploads"
+booklore_compose_file: "{{ booklore_data_directory }}/docker-compose.yaml"
+
+# uid / gid
+booklore_user_id: "{{ default_owner }}"
+booklore_group_id: "{{ default_group }}"
+
+# network
+booklore_port: "6060"
+booklore_hostname: "booklore"
+booklore_image_name: 'booklore'
+booklore_image_version: "myown"
+
+# docker
+booklore_container_name: "booklore"
+
+# specs
+booklore_memory: 1000M
+booklore_cpu: 2
+booklore_network_name: docker_network
+
+# db
+booklore_db_name: "booklore_db"
+booklore_db_user: "booklore_user"

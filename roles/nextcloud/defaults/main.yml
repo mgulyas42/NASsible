@@ -20,8 +20,8 @@ nextcloud_image_name: "nextcloud"
 nextcloud_image_version: "latest"
 
 # specs
-nextcloud_memory: "1g"
-nextcloud_cpu: 1
+nextcloud_memory: "2g"
+nextcloud_cpu: 2
 
 # database
 mysql_nextcloud_db: "nextcloud_db"

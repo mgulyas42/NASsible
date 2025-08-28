@@ -1,5 +1,6 @@
 CREATE DATABASE IF NOT EXISTS photoprism_db;
 CREATE DATABASE IF NOT EXISTS nextcloud_db;
+CREATE DATABASE IF NOT EXISTS booklore_db;
 
 CREATE USER IF NOT EXISTS 'photoprism_user'@'%' IDENTIFIED BY '{{ photoprism_db_user_password }}';
 CREATE USER IF NOT EXISTS 'photoprism_user'@'localhost' IDENTIFIED BY '{{ photoprism_db_user_password }}';
@@ -7,10 +8,16 @@ CREATE USER IF NOT EXISTS 'photoprism_user'@'localhost' IDENTIFIED BY '{{ photop
 CREATE USER IF NOT EXISTS 'nextcloud_user'@'%' IDENTIFIED BY '{{ nextcloud_db_user_password }}';
 CREATE USER IF NOT EXISTS 'nextcloud_user'@'localhost' IDENTIFIED BY '{{ nextcloud_db_user_password }}';
 
+CREATE USER IF NOT EXISTS 'booklore_user'@'%' IDENTIFIED BY '{{ booklore_db_user_password }}';
+CREATE USER IF NOT EXISTS 'booklore_user'@'localhost' IDENTIFIED BY '{{ booklore_db_user_password }}';
+
 GRANT ALL PRIVILEGES ON nextcloud_db.* TO 'nextcloud_user'@'%' WITH GRANT OPTION;
 GRANT ALL PRIVILEGES ON nextcloud_db.* TO 'nextcloud_user'@'localhost' WITH GRANT OPTION;
 
 GRANT ALL PRIVILEGES ON photoprism_db.* TO 'photoprism_user'@'%' WITH GRANT OPTION;
 GRANT ALL PRIVILEGES ON photoprism_db.* TO 'photoprism_user'@'localhost' WITH GRANT OPTION;
+
+GRANT ALL PRIVILEGES ON booklore_db.* TO 'booklore_user'@'%' WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON booklore_db.* TO 'booklore_user'@'localhost' WITH GRANT OPTION;
 
 FLUSH PRIVILEGES;

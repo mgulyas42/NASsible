@@ -1,0 +1,34 @@
+services:
+  booklore:
+    container_name: {{ booklore_container_name }}
+    image: "{{ booklore_image_name }}:{{ booklore_image_version }}"
+    volumes:
+        - "{{ booklore_config_directory }}:/app/data:rw"
+        - "{{ booklore_upload_directory }}:/bookdrop:rw"
+{% if booklore_extra_volumes is defined %}
+{% for volume in booklore_extra_volumes %}
+        - "{{ volume }}"
+{% endfor %}
+{% endif %}
+    ports:
+        - "{{ booklore_port }}:6060"
+    environment:
+        TZ: "{{ timezone }}"
+        USER_ID: "{{ booklore_user_id }}"
+        GROUP_ID: "{{ booklore_group_id }}"
+        DATABASE_URL: jdbc:mariadb://mariadb:3306/{{ booklore_db_name }}
+        DATABASE_USERNAME: "{{ booklore_db_user }}"
+        DATABASE_PASSWORD: "{{ booklore_db_user_password }}"
+        SWAGGER_ENABLED: "false"
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '{{ booklore_cpu }}'
+          memory: {{ booklore_memory }}  
+    networks:
+      - {{ booklore_network_name }} 
+
+networks:
+  {{ booklore_network_name }}:
+    external: true

@@ -11,6 +11,8 @@ transmission_config_directory: "{{ transmission_directory }}/config"
 transmission_upload_directory: "{{ transmission_directory }}/uploads"
 transmission_plugins_directory: "{{ transmission_directory }}/plugins"
 transmission_watch_directory: "{{ torrents_root }}"
+extra_book_copy_enabled: false
+
 # network
 transmission_port: "9091"
 transmission_hostname: "transmission"
