@@ -15,8 +15,8 @@ booklore_group_id: "{{ default_group }}"
 # network
 booklore_port: "6060"
 booklore_hostname: "booklore"
-booklore_image_name: 'booklore'
-booklore_image_version: "myown"
+booklore_image_name: 'booklore/booklore'
+booklore_image_version: "latest"
 
 # docker
 booklore_container_name: "booklore"
