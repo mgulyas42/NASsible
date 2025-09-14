@@ -21,6 +21,11 @@ services:
         DATABASE_PASSWORD: "{{ booklore_db_user_password }}"
         SWAGGER_ENABLED: "false"
     restart: unless-stopped
+    labels:
+      traefik.enable: "{{ booklore_available_externally | string }}"
+      traefik.http.routers.booklore.rule: "Host(`{{ booklore_hostname }}.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.booklore.tls: true
+      traefik.http.services.booklore.loadbalancer.server.port: "6060"
     deploy:
       resources:
         limits:

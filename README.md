@@ -26,6 +26,7 @@ List of applications and features that the script can install.
 - Duplicati (for backups)
 - Transmission
 - Traefik (using self-signed cert)
+   - [SELF_SIGNED_CERT.md](SELF_SIGNED_CERT.md)
 - Tailscale
 - Cloudflare
 - DuckDNS

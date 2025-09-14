@@ -19,8 +19,7 @@ services:
       homepage.description: Reverse Proxy
       homepage.widget.type: traefik
       homepage.widget.url: "http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ traefik_port_ui }}"  
-    environment:
-      CF_DNS_API_TOKEN: "abcdabcd123412341234"
+    # No ACME in self-signed mode; no DNS provider env variables needed.
     volumes:
       - "{{ traefik_data_directory }}/traefik.toml:/etc/traefik/traefik.toml:ro"
       - "{{ traefik_data_directory }}/certs:/certs:ro"
