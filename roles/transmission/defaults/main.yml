@@ -16,6 +16,7 @@ extra_book_copy_enabled: false
 # network
 transmission_port: "9091"
 transmission_hostname: "transmission"
+transmission_available_externally: false
 
 # docker
 transmission_container_name: transmission

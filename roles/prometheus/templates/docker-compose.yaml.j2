@@ -8,6 +8,11 @@ services:
       - --config.file=/etc/prometheus/prometheus.yml
     ports:
       - "9090:9090"
+    labels:
+      traefik.enable: "{{ prometheus_available_externally | default(false) | string }}"
+      traefik.http.routers.prometheus.rule: "Host(`{{ prometheus_hostname }}.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.prometheus.tls: true
+      traefik.http.services.prometheus.loadbalancer.server.port: "9090"
     networks:
       - {{ prometheus_network_name }} 
 

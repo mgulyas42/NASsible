@@ -12,6 +12,11 @@ services:
     user: {{ nextcloud_user_id }}:{{ nextcloud_group_id }}
     ports:
       - "{{ nextcloud_port }}:80"
+    labels:
+      traefik.enable: "{{ nextcloud_available_externally | string }}"
+      traefik.http.routers.nextcloud.rule: "Host(`{{ nextcloud_hostname }}.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.nextcloud.tls: true
+      traefik.http.services.nextcloud.loadbalancer.server.port: "80"
 #    depends_on:
 #      - database
     volumes:

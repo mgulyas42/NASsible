@@ -13,6 +13,7 @@ photoprism_port: "2342"
 photoprism_user_id: "{{ default_owner }}"
 photoprism_group_id: "{{ default_group }}"
 photoprism_network_name: docker_network
+photoprism_available_externally: false
 
 # defaults
 photoprism_admin_user: "photoprism"

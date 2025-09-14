@@ -6,3 +6,6 @@ grafana_network_name: monitoring
 monitoring_user_id: "{{ default_owner }}"
 monitoring_group_id: "{{ default_group }}"
 grafana_port: 3000
+grafana_available_externally: false
+grafana_hostname: "grafana"
+grafana_container_name: "{{ grafana_hostname }}"

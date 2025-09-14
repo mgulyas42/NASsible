@@ -9,6 +9,8 @@ prometheus_compose_file: "{{ prometheus_data_directory }}/docker-compose.yaml"
 prometheus_config_file: "{{ prometheus_data_directory }}/prometheus.yaml"
 # network
 prometheus_port: "11111"
+prometheus_hostname: "prometheus"
+prometheus_available_externally: false
 
 # docker
 prometheus_container_name: "prometheus"

@@ -10,6 +10,11 @@ services:
         TZ: "{{ timezone }}"
         PUID: "{{ overseerr_user_id }}"
         PGID: "{{ overseerr_group_id }}"
+    labels:
+      traefik.enable: "{{ overseerr_available_externally | string }}"
+      traefik.http.routers.overseerr.rule: "Host(`{{ overseerr_hostname }}.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.overseerr.tls: true
+      traefik.http.services.overseerr.loadbalancer.server.port: "5055"
     restart: unless-stopped
     deploy:
       resources:

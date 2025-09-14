@@ -10,6 +10,11 @@ services:
         TZ: "{{ timezone }}"
         PUID: "{{ jellyseerr_user_id }}"
         PGID: "{{ jellyseerr_group_id }}"
+    labels:
+      traefik.enable: "{{ jellyseerr_available_externally | string }}"
+      traefik.http.routers.jellyseerr.rule: "Host(`{{ jellyseerr_hostname }}.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.jellyseerr.tls: true
+      traefik.http.services.jellyseerr.loadbalancer.server.port: "5055"
     restart: unless-stopped
     deploy:
       resources:

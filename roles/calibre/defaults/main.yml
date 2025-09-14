@@ -16,6 +16,7 @@ calibre_comics_directory: "{{ comics_root }}"
 calibre_port: "8080"
 calibre_webserver_port: "8081"
 calibre_hostname: "calibre"
+calibre_available_externally: false
 
 # env
 calibre_password: calibre

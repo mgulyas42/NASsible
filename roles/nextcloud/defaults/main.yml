@@ -12,6 +12,7 @@ nextcloud_port: "1056"
 nextcloud_user_id: "{{ default_owner }}"
 nextcloud_group_id: "{{ default_group }}"
 nextcloud_network_name: docker_network
+nextcloud_available_externally: false
 
 # docker
 nextcloud_compose_file: "{{ nextcloud_data_directory }}/docker-compose.yaml"

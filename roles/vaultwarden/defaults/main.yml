@@ -12,3 +12,5 @@ vaultwarden_container_name: "vaultwarden"
 vaultwarden_network_name: docker_network
 vaultwarden_memory: 200M
 vaultwarden_cpus: 1
+vaultwarden_hostname: "vaultwarden"
+vaultwarden_available_externally: false

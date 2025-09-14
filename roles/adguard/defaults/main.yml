@@ -11,6 +11,8 @@ adguard_work_directory: "{{ adguard_directory }}/work"
 
 # network
 adguard_webserver_port: "3000"
+adguard_hostname: "adguard"
+adguard_available_externally: false
 
 # docker
 adguard_container_name: adguard

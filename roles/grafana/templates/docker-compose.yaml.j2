@@ -1,11 +1,16 @@
 services:
   grafana:
     image: grafana/grafana
-    container_name: grafana
+    container_name: {{ grafana_container_name }}
     volumes:
       - grafana_data:/var/lib/grafana
     ports:
       - "{{ grafana_port }}:3000"
+    labels:
+      traefik.enable: "{{ grafana_available_externally | string }}"
+      traefik.http.routers.grafana.rule: "Host(`{{ grafana_hostname }}.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.grafana.tls: true
+      traefik.http.services.grafana.loadbalancer.server.port: "3000"
     networks:
       - {{ grafana_network_name }} 
 

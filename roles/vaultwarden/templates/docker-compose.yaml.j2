@@ -7,6 +7,11 @@ services:
       - "{{ vaultwarden_data_directory }}/data:/data"
     ports:
       - "9445:80"
+    labels:
+      traefik.enable: "{{ vaultwarden_available_externally | default(false) | string }}"
+      traefik.http.routers.vaultwarden.rule: "Host(`{{ vaultwarden_hostname }}.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.vaultwarden.tls: true
+      traefik.http.services.vaultwarden.loadbalancer.server.port: "80"
     deploy:
       resources:
         limits:

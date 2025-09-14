@@ -13,6 +13,11 @@ services:
       PUID: 0
       GUID: 0
       TZ: "{{ timezone }}"
+    labels:
+      traefik.enable: "{{ duplicati_available_externally | string }}"
+      traefik.http.routers.duplicati.rule: "Host(`{{ duplicati_hostname }}.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.duplicati.tls: true
+      traefik.http.services.duplicati.loadbalancer.server.port: "8200"
     networks:
       - {{ duplicati_network_name }} 
 

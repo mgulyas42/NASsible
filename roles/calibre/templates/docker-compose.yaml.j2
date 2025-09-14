@@ -1,7 +1,7 @@
 services:
   calibre:
     image: ghcr.io/linuxserver/calibre:{{ calibre_image_version }}
-    container_name: calibre
+    container_name: {{ calibre_container_name }}  
     environment:
       - TZ="{{ timezone }}"
       - PUID={{ calibre_user_id }}
@@ -17,6 +17,11 @@ services:
     ports:
       - {{ calibre_port }}:8080
       - {{ calibre_webserver_port }}:8081
+    labels:
+      traefik.enable: "{{ calibre_available_externally | default(false) | string }}"
+      traefik.http.routers.calibre.rule: "Host(`{{ calibre_hostname }}.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.calibre.tls: true
+      traefik.http.services.calibre.loadbalancer.server.port: "8080"
     restart: unless-stopped
     deploy:
       resources:
