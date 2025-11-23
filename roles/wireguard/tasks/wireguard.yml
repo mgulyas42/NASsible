@@ -1,0 +1,32 @@
+---
+- name: Start wireguard
+  block:
+    - name: Ensure directories exist
+      become: true
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ wireguard_user_id }}"
+        group: "{{ wireguard_group_id }}"
+        mode: '{{ (ansible_facts[item].stat.mode | default(omit)) | default("0755", true) }}'
+      with_items:
+        - "{{ wireguard_data_directory }}"
+
+    - name: Copy Docker Compose template
+      template:
+        src: docker-compose.yaml.j2 
+        dest: "{{ wireguard_compose_file }}"
+
+    - name: Start wireguard
+      community.docker.docker_compose_v2:
+        project_src: "{{ wireguard_data_directory }}"
+        state: present        
+  when: wireguard_enabled is true
+
+- name: Stop wireguard
+  block:
+    - name: Stop wireguard
+      community.docker.docker_container:
+        name: "{{ wireguard_container_name }}"
+        state: absent
+  when: wireguard_enabled is false

@@ -41,9 +41,10 @@ services:
       PHOTOPRISM_UID: {{ photoprism_user_id }}
       PHOTOPRISM_GID: {{ photoprism_group_id }}
     working_dir: "/photoprism"
+    restart: unless-stopped
     user: {{ photoprism_user_id }}:{{ photoprism_group_id }}
     volumes:
-      - "{{ photoprism_original_directory }}:/photoprism/originals:ro"              # Original media files (DO NOT REMOVE)
+      - "{{ photoprism_original_directory }}:/photoprism/originals"              # Original media files (DO NOT REMOVE IT)
       - "{{ photoprism_cache_directory }}:/photoprism/storage"            # for caching
 
     networks:

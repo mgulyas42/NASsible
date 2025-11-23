@@ -28,6 +28,7 @@ List of applications and features that the script can install.
 - Traefik (using self-signed cert)
    - [SELF_SIGNED_CERT.md](SELF_SIGNED_CERT.md)
 - Tailscale
+- Wireguard
 - Cloudflare
 - DuckDNS
 - OpenVPN (planned)

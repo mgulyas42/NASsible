@@ -1,0 +1,33 @@
+services:
+  wireguard:
+    image: lscr.io/linuxserver/wireguard:latest
+    container_name: wireguard
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE #optional
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - SERVERURL={{ wireguard_server_url }} #optional
+      - SERVERPORT={{ wireguard_port }} #optional
+      - PEERS={{ wireguard_peers }} #optional
+      - PEERDNS=auto #optional
+      - INTERNAL_SUBNET={{ wireguard_internal_subnet }} #optional
+      - ALLOWEDIPS={{ wireguard_allowed_ips }} #optional
+      - PERSISTENTKEEPALIVE_PEERS= #optional
+      - LOG_CONFS=true #optional
+    volumes:
+      - ./config:/config
+      - /lib/modules:/lib/modules #optional
+    deploy:
+      resources:
+        limits:
+          cpus: '{{ wireguard_cpu }}'
+          memory: {{ wireguard_memory }}
+    networks:
+      - {{ wireguard_network_name }}
+
+networks:
+  {{ wireguard_network_name }}:
+    external: true
