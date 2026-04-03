@@ -1,0 +1,24 @@
+---
+# enable or disable the application
+mosquitto_enabled: false
+
+# directories
+mosquitto_data_directory: "{{ docker_home }}/mosquitto"
+mosquitto_config_directory: "{{ mosquitto_data_directory }}/mosquitto/config"
+mosquitto_storage_directory: "{{ mosquitto_data_directory }}/mosquitto/data"
+mosquitto_log_directory: "{{ mosquitto_data_directory }}/mosquitto/log"
+
+# network
+mosquitto_network_name: docker_network
+
+# docker
+mosquitto_compose_file: "{{ mosquitto_data_directory }}/docker-compose.yaml"
+mosquitto_container_name: "mosquitto"
+mosquitto_image_name: "eclipse-mosquitto"
+mosquitto_image_version: "latest"
+mosquitto_user_id: "{{ default_owner }}"
+mosquitto_group_id: "{{ default_group }}"
+
+# ports
+mosquitto_port: "1883"
+mosquitto_websocket_port: "9001"

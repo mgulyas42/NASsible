@@ -11,6 +11,21 @@
         mode: '{{ (ansible_facts[item].stat.mode | default(omit)) | default("0755", true) }}'
       with_items:
         - "{{ homeassistant_data_directory }}"
+        - "{{ homeassistant_zigbee2mqtt_data_directory }}"
+      when: not homeassistant_zigbee2mqtt_enabled | bool
+
+    - name: Ensure directories exist (zigbee2mqtt)
+      become: true
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ homeassistant_user_id }}"
+        group: "{{ homeassistant_group_id }}"
+        mode: '{{ (ansible_facts[item].stat.mode | default(omit)) | default("0755", true) }}'
+      with_items:
+        - "{{ homeassistant_data_directory }}"
+        - "{{ homeassistant_zigbee2mqtt_data_directory }}"
+      when: homeassistant_zigbee2mqtt_enabled | bool
 
     - name: Copy Docker Compose template
       template:
@@ -30,3 +45,19 @@
         name: "{{ homeassistant_container_name }}"
         state: absent
   when: homeassistant_enabled is false
+
+- name: Stop homeassistant
+  block:
+    - name: Stop homeassistant
+      community.docker.docker_container:
+        name: "{{ homeassistant_container_name }}"
+        state: absent
+  when: homeassistant_matter_enabled is false
+
+- name: Stop homeassistant
+  block:
+    - name: Stop homeassistant
+      community.docker.docker_container:
+        name: "{{ homeassistant_container_name }}"
+        state: absent
+  when: homeassistant_thread_border_router_enabled is false  

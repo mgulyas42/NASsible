@@ -22,5 +22,5 @@ transmission_available_externally: false
 transmission_container_name: transmission
 transmission_image_version: latest
 transmission_network_name: docker_network
-transmission_memory: 500M
-transmission_cpus: 1
+transmission_memory: 1G
+transmission_cpus: 2

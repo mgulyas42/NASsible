@@ -1,0 +1,35 @@
+---
+- name: Start mosquitto
+  block:
+    - name: Ensure directories exist
+      become: true
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ mosquitto_user_id }}"
+        group: "{{ mosquitto_group_id }}"
+        mode: '{{ (ansible_facts[item].stat.mode | default(omit)) | default("0755", true) }}'
+      with_items:
+        - "{{ mosquitto_data_directory }}"
+        - "{{ mosquitto_config_directory }}"
+        - "{{ mosquitto_storage_directory }}"
+        - "{{ mosquitto_log_directory }}"
+
+    - name: Copy Docker Compose template
+      template:
+        src: docker-compose.yaml.j2
+        dest: "{{ mosquitto_compose_file }}"
+
+    - name: Start mosquitto
+      community.docker.docker_compose_v2:
+        project_src: "{{ mosquitto_data_directory }}"
+        state: present
+  when: mosquitto_enabled is true
+
+- name: Stop mosquitto
+  block:
+    - name: Stop mosquitto
+      community.docker.docker_container:
+        name: "{{ mosquitto_container_name }}"
+        state: absent
+  when: mosquitto_enabled is false

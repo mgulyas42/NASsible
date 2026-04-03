@@ -18,5 +18,28 @@ homeassistant_container_name: "homeassistant"
 homeassistant_image_name: "homeassistant/home-assistant"
 homeassistant_image_version: latest
 
+homeassistant_zigbee2mqtt_enabled: false
+homeassistant_zigbee2mqtt_data_directory: "{{ homeassistant_data_directory }}/zigbee2mqtt"
+homeassistant_zigbee2mqtt_container_name: "zigbee2mqtt"
+homeassistant_zigbee2mqtt_image_name: "ghcr.io/koenkk/zigbee2mqtt"
+homeassistant_zigbee2mqtt_image_version: "latest"
+homeassistant_zigbee2mqtt_frontend_port: "8079"
+homeassistant_zigbee2mqtt_device: "/dev/ttyACM0"
+homeassistant_zigbee2mqtt_adapter_by_id: ""
+
+homeassistant_matter_enabled: false
+homeassistant_matter_image_name: "ghcr.io/home-assistant-libs/python-matter-server"
+homeassistant_matter_image_version: stable
+homeassistant_matter_data_directory: "{{ homeassistant_data_directory }}/matter"
+homeassistant_matter_container_name: "ha-matter-server"
+
+homeassistant_thread_border_router_enabled: false
+homeassistant_thread_border_router_image_name: "openthread/border-router"
+homeassistant_thread_border_router_image_version: latest
+homeassistant_thread_border_router_data_directory: "{{ homeassistant_data_directory }}/thread-border-router"
+homeassistant_thread_border_router_container_name: "ha-thread-border-router"
+homeassistant_thread_border_router_device: "/dev/ttyUSB0"
+homeassistant_thread_border_router_backbone_if: "eth0"
+homeassistant_thread_border_router_otbr_rest_port: 8081
 # specs
 homeassistant_memory: 1g

@@ -1,0 +1,18 @@
+services:
+  mosquitto:
+    image: "{{ mosquitto_image_name }}:{{ mosquitto_image_version }}"
+    container_name: "{{ mosquitto_container_name }}"
+    restart: unless-stopped
+    ports:
+      - "{{ mosquitto_port }}:1883"
+      - "{{ mosquitto_websocket_port }}:9001"
+    volumes:
+      - "{{ mosquitto_config_directory }}:/mosquitto/config:rw"
+      - "{{ mosquitto_storage_directory }}:/mosquitto/data:rw"
+      - "{{ mosquitto_log_directory }}:/mosquitto/log:rw"
+    networks:
+      - {{ mosquitto_network_name }}
+
+networks:
+  {{ mosquitto_network_name }}:
+    external: true
