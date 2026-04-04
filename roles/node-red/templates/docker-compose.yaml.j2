@@ -1,0 +1,25 @@
+services:
+  node-red:
+    container_name: "{{ node_red_container_name }}"
+    image: "{{ node_red_image_name }}:{{ node_red_image_version }}"
+    restart: unless-stopped
+    user: "{{ node_red_user_id }}:{{ node_red_group_id }}"
+    ports:
+      - "{{ node_red_port }}:1880"
+    environment:
+      TZ: "{{ timezone }}"
+    volumes:
+      - "{{ node_red_config_directory }}:/data"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    deploy:
+      resources:
+        limits:
+          cpus: "{{ node_red_cpu }}"
+          memory: "{{ node_red_memory }}"
+    networks:
+      - {{ node_red_network_name }}
+
+networks:
+  {{ node_red_network_name }}:
+    external: true

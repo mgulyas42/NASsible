@@ -1,0 +1,33 @@
+---
+- name: Start node-red
+  block:
+    - name: Ensure directories exist
+      become: true
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ node_red_user_id }}"
+        group: "{{ node_red_group_id }}"
+        mode: '{{ (ansible_facts[item].stat.mode | default(omit)) | default("0755", true) }}'
+      with_items:
+        - "{{ node_red_data_directory }}"
+        - "{{ node_red_config_directory }}"
+
+    - name: Copy Docker Compose template
+      template:
+        src: docker-compose.yaml.j2
+        dest: "{{ node_red_compose_file }}"
+
+    - name: Start node-red
+      community.docker.docker_compose_v2:
+        project_src: "{{ node_red_data_directory }}"
+        state: present
+  when: node_red_enabled is true
+
+- name: Stop node-red
+  block:
+    - name: Stop node-red
+      community.docker.docker_container:
+        name: "{{ node_red_container_name }}"
+        state: absent
+  when: node_red_enabled is false
