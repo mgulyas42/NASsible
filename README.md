@@ -32,10 +32,13 @@ List of applications and features that the script can install.
 - Cloudflare
 - DuckDNS
 - OpenVPN (planned)
+- Mosquitto
+- Node-RED
 - Prometheus
 
 ### Apps
 - Home Assistant
+- Zigbee2MQTT
 - Nextcloud
 - Grafana
 - Homepage
