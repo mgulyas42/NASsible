@@ -1,0 +1,14 @@
+---
+# enable or disable the application
+netdata_enabled: false
+
+# directories
+netdata_data_directory: "{{ docker_home }}/netdata"
+netdata_compose_file: "{{ netdata_data_directory }}/docker-compose.yaml"
+
+# docker
+netdata_container_name: "netdata"
+netdata_image_name: "netdata/netdata"
+netdata_image_version: "latest"
+netdata_user_id: "{{ default_owner }}"
+netdata_group_id: "{{ default_group }}"

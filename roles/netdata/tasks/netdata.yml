@@ -1,0 +1,39 @@
+---
+- name: Start netdata
+  block:
+    - name: Ensure data directory exists
+      become: true
+      ansible.builtin.file:
+        path: "{{ netdata_data_directory }}"
+        state: directory
+        owner: "{{ netdata_user_id }}"
+        group: "{{ netdata_group_id }}"
+        mode: '0755'
+
+    - name: Copy Docker Compose template
+      template:
+        src: docker-compose.yaml.j2
+        dest: "{{ netdata_compose_file }}"
+
+    - name: Start netdata
+      community.docker.docker_compose_v2:
+        project_src: "{{ netdata_data_directory }}"
+        state: present
+  when: netdata_enabled | bool
+
+- name: Stop netdata if not enabled
+  when: not netdata_enabled | bool
+  block:
+    - name: Gather netdata container info (do not fail if missing)
+      community.docker.docker_container_info:
+        name: "{{ netdata_container_name }}"
+      register: container_info
+      failed_when: false
+
+    - name: Stop netdata container if running
+      community.docker.docker_compose_v2:
+        project_src: "{{ netdata_data_directory }}"
+        state: absent
+      when:
+        - container_info.container is defined
+        - (container_info.container.State.Running | default(false)) | bool
